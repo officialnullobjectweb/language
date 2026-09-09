@@ -1,0 +1,149 @@
+{
+  "kind": "IRModule",
+  "version": "0.3",
+  "name": "main",
+  "entities": [],
+  "functions": [
+    {
+      "name": "main",
+      "parameters": [],
+      "blocks": [
+        {
+          "label": "entry",
+          "ops": [
+            {
+              "op": "const",
+              "operands": [
+                {
+                  "kind": "const",
+                  "value": 100,
+                  "type": "number"
+                }
+              ],
+              "result": "%0"
+            },
+            {
+              "op": "store",
+              "operands": [
+                {
+                  "kind": "var",
+                  "name": "price",
+                  "type": "unknown"
+                },
+                {
+                  "kind": "temp",
+                  "name": "%0",
+                  "type": "number"
+                }
+              ]
+            },
+            {
+              "op": "const",
+              "operands": [
+                {
+                  "kind": "const",
+                  "value": 5,
+                  "type": "number"
+                }
+              ],
+              "result": "%1"
+            },
+            {
+              "op": "store",
+              "operands": [
+                {
+                  "kind": "var",
+                  "name": "quantity",
+                  "type": "unknown"
+                },
+                {
+                  "kind": "temp",
+                  "name": "%1",
+                  "type": "number"
+                }
+              ]
+            },
+            {
+              "op": "load",
+              "operands": [
+                {
+                  "kind": "var",
+                  "name": "price",
+                  "type": "unknown"
+                }
+              ],
+              "result": "%2"
+            },
+            {
+              "op": "load",
+              "operands": [
+                {
+                  "kind": "var",
+                  "name": "quantity",
+                  "type": "unknown"
+                }
+              ],
+              "result": "%3"
+            },
+            {
+              "op": "mul",
+              "operands": [
+                {
+                  "kind": "temp",
+                  "name": "%2",
+                  "type": "unknown"
+                },
+                {
+                  "kind": "temp",
+                  "name": "%3",
+                  "type": "unknown"
+                }
+              ],
+              "result": "%4"
+            },
+            {
+              "op": "store",
+              "operands": [
+                {
+                  "kind": "var",
+                  "name": "total",
+                  "type": "unknown"
+                },
+                {
+                  "kind": "temp",
+                  "name": "%4",
+                  "type": "number"
+                }
+              ]
+            },
+            {
+              "op": "load",
+              "operands": [
+                {
+                  "kind": "var",
+                  "name": "total",
+                  "type": "unknown"
+                }
+              ],
+              "result": "%5"
+            },
+            {
+              "op": "print",
+              "operands": [
+                {
+                  "kind": "temp",
+                  "name": "%5",
+                  "type": "unknown"
+                }
+              ]
+            },
+            {
+              "op": "return",
+              "operands": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

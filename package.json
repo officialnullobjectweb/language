@@ -1,0 +1,27 @@
+{
+  "name": "plainly",
+  "version": "0.5.0",
+  "description": "Plainly — a human-first programming language",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "bin": {
+    "plainly": "dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc && npm run bundle",
+    "bundle": "esbuild book/entry.ts --bundle --format=esm --outfile=book/assets/plainly.js --log-level=warning && cp book/assets/plainly.js docs/assets/plainly.js",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "check:book": "node tools/check-book-examples.mjs",
+    "serve:book": "node dist/cli.js serve book -p 3443",
+    "serve:docs": "node dist/cli.js serve docs -p 3443"
+  },
+  "devDependencies": {
+    "@types/node": "^26.5.0",
+    "esbuild": "^0.28.2",
+    "typescript": "^5.6.0",
+    "vitest": "^2.1.0"
+  }
+}

@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Plainly Reference — the complete documentation</title>
+<meta name="description" content="Exhaustive reference documentation for Plainly: language rules, statements, operators, builtins, errors, CLI, and internals." />
+<link rel="stylesheet" href="assets/style.css" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23e8590c'/><text x='50' y='68' font-size='52' text-anchor='middle' fill='white' font-family='sans-serif' font-weight='bold'>K</text></svg>" />
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="logo" href="#top"><span class="logo-mark">K</span> Plainly&nbsp;<span style="font-weight:600;font-size:14px;color:var(--ink-soft);">Reference</span></a>
+    <span class="topbar-spacer"></span>
+    <div class="searchbox"><input type="search" placeholder="Filter the index… (e.g. split, loops)" aria-label="Filter index" /></div>
+    <a class="navlink" href="../book/index.html">The Book</a>
+    <button class="menu-btn" aria-label="Open index">☰ Index</button>
+  </div>
+</header>
+
+<div class="layout" id="top">
+
+  <!-- ======================= SIDEBAR INDEX ======================= -->
+  <aside class="sidebar" id="sidebar">
+    <h4>Overview</h4>
+    <ul>
+      <li><a href="#sec-about">About this reference</a></li>
+      <li><a href="#sec-philosophy">Design philosophy</a></li>
+    </ul>
+    <h4>Language</h4>
+    <ul>
+      <li><a href="#sec-lexicon">Lexical rules</a></li>
+      <li><a href="#sec-values">Values &amp; types</a></li>
+      <li><a href="#sec-variables">Variables</a></li>
+      <li><a href="#sec-say">say</a></li>
+      <li><a href="#sec-operators">Operators</a></li>
+      <li><a href="#sec-precedence">Precedence rules</a></li>
+      <li><a href="#sec-if">if / otherwise</a></li>
+      <li><a href="#sec-loops">Loops</a></li>
+      <li><a href="#sec-lists">Lists</a></li>
+      <li><a href="#sec-functions">Functions</a></li>
+      <li><a href="#sec-comments">Comments</a></li>
+    </ul>
+    <h4>Library &amp; errors</h4>
+    <ul>
+      <li><a href="#sec-stdlib">Standard library (18 builtins)</a></li>
+      <li><a href="#sec-errors">Error codes PL-001…017</a></li>
+      <li><a href="#sec-grammar">Formal grammar (EBNF)</a></li>
+    </ul>
+    <h4>Tooling &amp; internals</h4>
+    <ul>
+      <li><a href="#sec-cli">CLI reference</a></li>
+      <li><a href="#sec-internals">How the compiler works</a></li>
+      <li><a href="#sec-limitations">Current limitations</a></li>
+    </ul>
+    <p class="no-results">Nothing matches that filter.</p>
+  </aside>
+
+  <!-- ======================= CONTENT ======================= -->
+  <main class="content">
+
+    <!-- ============ ABOUT ============ -->
+    <section class="doc-section" id="sec-about">
+      <h2><span class="secnum">§01</span> About this reference</h2>
+      <p class="lede">This is the complete, precise specification of Plainly v0.2. Every rule here is enforced by the real compiler, and every example is runnable.</p>
+
+      <p>Plainly is a small, human-first programming language. This reference covers
+      <strong>everything the language can do</strong> — no more, no less. If a feature isn't on this
+      page, it doesn't exist yet (see <a href="#sec-limitations">§16 Current limitations</a>).</p>
+
+      <table class="ref">
+        <tr><th>Fact</th><th>Value</th></tr>
+        <tr><td>Version documented</td><td>v0.2</td></tr>
+        <tr><td>File extension</td><td><code>.pl</code></td></tr>
+        <tr><td>Keywords</td><td>16</td></tr>
+        <tr><td>Builtin functions</td><td>18</td></tr>
+        <tr><td>Error codes</td><td>17 (PL-001 … PL-017)</td></tr>
+        <tr><td>Indentation</td><td>2 spaces per level (multiples of 2)</td></tr>
+        <tr><td>String quotes</td><td>Double quotes only: <code>"text"</code></td></tr>
+      </table>
+
+      <div class="callout info">
+        <span class="co-icon">📖</span>
+        <p>Learning Plainly from zero? Read <a href="../book/index.html">The Plainly Book</a>
+        first — it teaches the same material visually, chapter by chapter. Come back here when you
+        need the exact rule.</p>
+      </div>
+    </section>
+
+    <!-- ============ PHILOSOPHY ============ -->
+    <section class="doc-section" id="sec-philosophy">
+      <h2><span class="secnum">§02</span> Design philosophy</h2>
+      <p class="lede">Four rules govern every language decision.</p>
+
+      <div class="api"><div class="api-head"><span class="sig">1 · Human-first, not human-only</span><span class="badge keyword">principle</span></div>
+        <div class="api-body"><p>Syntax reads like English where English is precise: <code>say</code>,
+        <code>set</code>, <code>for each … in</code>. Where English would be <em>vague</em>, the
+        language is mechanical — one way to do each thing. Human-friendly ≠ ambiguous.</p></div>
+      </div>
+
+      <div class="api"><div class="api-head"><span class="sig">2 · Errors are the product</span><span class="badge keyword">principle</span></div>
+        <div class="api-body"><p>Every diagnostic has: a stable code (<code>PL-XXX</code>), a
+        plain-English message, a source excerpt with a caret, a hint (often the exact fix), and a
+        did-you-mean suggestion for misspelled names. <code>plainly explain PL-002</code> expands any
+        code into a short lesson.</p></div>
+      </div>
+
+      <div class="api"><div class="api-head"><span class="sig">3 · Check early, fail informatively</span><span class="badge keyword">principle</span></div>
+        <div class="api-body"><p>The semantic analyzer reports <strong>all</strong> static problems
+        in one pass — unknown names, wrong argument counts, <code>return</code> outside functions,
+        unused variables (as warnings) — before anything runs.</p></div>
+      </div>
+
+      <div class="api"><div class="api-head"><span class="sig">4 · Small enough to fully know</span><span class="badge keyword">principle</span></div>
+        <div class="api-body"><p>16 keywords + 18 builtins is the entire language. A motivated
+        reader can understand every rule on this page in an afternoon — and then understand what
+        big languages are doing underneath.</p></div>
+      </div>
+    </section>
+
+    <!-- ============ LEXICON ============ -->
+    <section class="doc-section" id="sec-lexicon">
+      <h2><span class="secnum">§03</span> Lexical rules</h2>
+      <p class="lede">How source text is chopped into tokens.</p>
+
+      <h3>Source encoding &amp; lines</h3>
+      <ul>
+        <li>Files are UTF-8 text, extension <code>.pl</code>.</li>
+        <li>Statements are separated by <strong>newlines</strong> — one statement per line.</li>
+        <li>Blank lines are ignored everywhere; they never affect indentation.</li>
+      </ul>
+
+      <h3>Indentation</h3>
+      <ul>
+        <li>A block is opened by <code>:</code> at the end of a line and contains lines indented
+        <strong>2 spaces</strong> deeper.</li>
+        <li>Indentation must be a multiple of 2. Odd widths (e.g. 3 spaces) are error
+        <code>PL-004</code>.</li>
+        <li>Every line inside one block must align exactly; misalignment is <code>PL-004</code>.</li>
+        <li>Tabs count as advancing to the next multiple of 4 — but spaces are strongly recommended.</li>
+      </ul>
+
+      <h3>Comments</h3>
+      <p><code>#</code> starts a comment that runs to the end of the line. Comments may be full-line
+      or trailing. There are no block comments. See <a href="#sec-comments">§13 Comments</a>.</p>
+
+      <h3>Identifiers</h3>
+      <p>Start with a letter or <code>_</code>, continue with letters, digits or <code>_</code>.
+      Case-sensitive: <code>total</code> ≠ <code>Total</code>. Reserved words cannot be used as
+      names (they're listed per-section below; the lexer would read them as keywords).</p>
+
+      <h3>Numbers</h3>
+      <ul>
+        <li>Integers: <code>0</code>, <code>42</code>, <code>9000</code></li>
+        <li>Decimals: <code>3.14</code>, <code>0.5</code> (a digit required on both sides of the dot)</li>
+        <li>No exponent notation, no hex, no negative literals (use unary <code>-</code>).</li>
+      </ul>
+
+      <h3>Strings</h3>
+      <ul>
+        <li>Double quotes only: <code>"hello"</code>. Single quotes are error <code>PL-005</code>.</li>
+        <li>Escapes: <code>\n</code> newline, <code>\t</code> tab, <code>\"</code> quote,
+        <code>\\</code> backslash. Unknown escapes are <code>PL-006</code>.</li>
+        <li>A string must close on the same line, or error <code>PL-003</code>.</li>
+      </ul>
+
+      <h3>Operators &amp; punctuation</h3>
+      <p><code>+ - * / % &gt; &lt; &gt;= &lt;= == =</code>, <code>:</code> <code>,</code>
+      <code>( )</code> <code>[ ]</code>. Any other character is <code>PL-001</code> with a
+      did-you-mean hint.</p>
+
+      <h3>Reserved words (16)</h3>
+      <p><code>say set if otherwise for each in repeat times function return true false and or not</code></p>
+    </section>
+
+    <!-- ============ VALUES ============ -->
+    <section class="doc-section" id="sec-values">
+      <h2><span class="secnum">§04</span> Values &amp; types</h2>
+      <p class="lede">Plainly has five kinds of values. There is no type annotation syntax — values carry their kind.</p>
+
+      <table class="ref">
+        <tr><th>Kind</th><th>Written as</th><th>Examples</th><th>Truthiness (used in <code>if</code>)</th></tr>
+        <tr><td><strong>Number</strong></td><td>digits, optional decimal</td><td><code>42</code> <code>3.14</code> <code>-7</code></td><td>false when <code>0</code></td></tr>
+        <tr><td><strong>Text</strong></td><td>double-quoted</td><td><code>"hi"</code> <code>""</code></td><td>false when empty</td></tr>
+        <tr><td><strong>Boolean</strong></td><td>keywords</td><td><code>true</code> <code>false</code></td><td>as itself</td></tr>
+        <tr><td><strong>List</strong></td><td><code>[v, v, …]</code></td><td><code>[1, "a"]</code> <code>[]</code></td><td>false when empty</td></tr>
+        <tr><td><strong>Function</strong></td><td>declared, not written literally</td><td><code>double</code>, builtins</td><td>always true</td></tr>
+      </table>
+
+      <p>There is also exactly one "missing" value: a function that ends without
+      <code>return</code> gives back <code>nothing</code> (printed as <code>nothing</code>).</p>
+
+      <div class="callout warn">
+        <span class="co-icon">⚠️</span>
+        <p><code>0</code>, <code>""</code> and <code>[]</code> are <em>false</em> inside
+        <code>if</code>. This rarely matters in practice, but it's specified. Prefer explicit
+        comparisons: <code>if count == 0:</code>.</p>
+      </div>
+
+      <h3>Converting between kinds</h3>
+      <p>Use <code>number(value)</code> and <code>text(value)</code> — see
+      <a href="#sec-stdlib">§14 Standard library</a>. Implicit conversion happens only when joining
+      text with <code>+</code>.</p>
+    </section>
+
+    <!-- ============ VARIABLES ============ -->
+    <section class="doc-section" id="sec-variables">
+      <h2><span class="secnum">§05</span> Variables</h2>
+      <p class="lede"><code>set</code> creates or updates a named box.</p>
+
+      <div class="api">
+        <div class="api-head"><span class="sig">set NAME = EXPRESSION</span><span class="badge statement">statement</span></div>
+        <div class="api-body">
+          <p>Evaluates <code>EXPRESSION</code>, then stores it under <code>NAME</code>. If a visible
+          variable of that name exists, it is <strong>updated in place</strong>; otherwise a new one
+          is created in the current scope.</p>
+          <p class="api-meta">Right side is evaluated <em>before</em> assignment, so
+          <code>set score = score + 10</code> reads the old value first.</p>
+          <pre data-lang="plainly">set count = 3
+set count = count * 10
+say count</pre>
+          <div class="run-panel"><div class="rp-head">Output</div><pre></pre></div>
+        </div>
+      </div>
+
+      <h3>Scoping rules</h3>
+      <ul>
+        <li><strong>Top level:</strong> variables live for the whole program.</li>
+        <li><strong>if / otherwise / repeat blocks:</strong> no new scope — a <code>set</code> inside
+        updates the surrounding variable (this is how accumulators work).</li>
+        <li><strong>for each loops:</strong> the loop variable is fresh each pass and visible only
+        inside the body.</li>
+        <li><strong>Functions:</strong> parameters are local. A <code>set</code> of an unknown name
+        inside a function creates a local; assigning to a known outer name updates the outer one.</li>
+        <li>Reading a name that was never created is error <code>PL-002</code> — statically caught
+        by the analyzer, with a did-you-mean hint.</li>
+      </ul>
+    </section>
+
+    <!-- ============ SAY ============ -->
+    <section class="doc-section" id="sec-say">
+      <h2><span class="secnum">§06</span> say</h2>
+      <p class="lede">Print any value to output.</p>
+
+      <div class="api">
+        <div class="api-head"><span class="sig">say EXPRESSION</span><span class="badge statement">statement</span></div>
+        <div class="api-body">
+          <p>Evaluates the expression and prints its display form on its own line.</p>
+          <table class="ref">
+            <tr><th>Value</th><th>Printed as</th></tr>
+            <tr><td>number <code>2.5</code></td><td><code>2.5</code></td></tr>
+            <tr><td>text <code>"hi"</code></td><td><code>hi</code> (no quotes)</td></tr>
+            <tr><td>boolean</td><td><code>true</code> / <code>false</code></td></tr>
+            <tr><td>list <code>[1, "a"]</code></td><td><code>[1, "a"]</code> (strings quoted)</td></tr>
+            <tr><td>function</td><td><code>&lt;function name&gt;</code></td></tr>
+          </table>
+          <pre data-lang="plainly">say [1, "a", true]
+say 10 / 4
+say "done"</pre>
+          <div class="run-panel"><div class="rp-head">Output</div><pre></pre></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ OPERATORS ============ -->
+    <section class="doc-section" id="sec-operators">
+      <h2><span class="secnum">§07</span> Operators</h2>
+      <p class="lede">Every operator, its allowed operand kinds, and its result.</p>
+
+      <table class="ref">
+        <tr><th>Operator</th><th>Name</th><th>Operands</th><th>Result</th><th>Notes</th></tr>
+        <tr><td><code>a + b</code></td><td>add / join</td><td>num+num, text+anything, list+list</td><td>num / text / list</td><td>If either side is text, the other side is converted to text and joined.</td></tr>
+        <tr><td><code>a - b</code></td><td>subtract</td><td>num, num</td><td>num</td><td><code>PL-009</code> otherwise.</td></tr>
+        <tr><td><code>a * b</code></td><td>multiply</td><td>num, num</td><td>num</td><td></td></tr>
+        <tr><td><code>a / b</code></td><td>divide</td><td>num, num</td><td>num</td><td><code>b == 0</code> → <code>PL-008</code>. Result is fractional: <code>10 / 4 = 2.5</code>.</td></tr>
+        <tr><td><code>a % b</code></td><td>remainder</td><td>num, num</td><td>num</td><td><code>b == 0</code> → <code>PL-008</code>. <code>10 % 3 = 1</code>.</td></tr>
+        <tr><td><code>-a</code></td><td>negate</td><td>num</td><td>num</td><td>Unary minus.</td></tr>
+        <tr><td><code>a &gt; b</code> etc.</td><td>compare</td><td>num↔num or text↔text</td><td>boolean</td><td>Mixed kinds → <code>PL-009</code>. Text compares alphabetically.</td></tr>
+        <tr><td><code>a == b</code></td><td>equal</td><td>any, any</td><td>boolean</td><td>Lists compare element-by-element. Different kinds are simply unequal (no error).</td></tr>
+        <tr><td><code>a != b</code></td><td>not equal</td><td>any, any</td><td>boolean</td><td>Negation of <code>==</code>.</td></tr>
+        <tr><td><code>a and b</code></td><td>logical and</td><td>any</td><td>value</td><td>Short-circuits: returns the first falsy operand, else the second.</td></tr>
+        <tr><td><code>a or b</code></td><td>logical or</td><td>any</td><td>value</td><td>Short-circuits: returns the first truthy operand, else the second.</td></tr>
+        <tr><td><code>not a</code></td><td>logical not</td><td>any</td><td>boolean</td><td>Flips truthiness.</td></tr>
+        <tr><td><code>xs[i]</code></td><td>index</td><td>list/text, whole number</td><td>item / char</td><td>Out of range → <code>PL-012</code>; fractional index → <code>PL-009</code>.</td></tr>
+        <tr><td><code>f(args)</code></td><td>call</td><td>function</td><td>result</td><td>Wrong count → <code>PL-011</code>. Not a function → <code>PL-010</code>.</td></tr>
+      </table>
+
+      <div class="callout danger">
+        <span class="co-icon">🚨</span>
+        <p><code>=</code> is <strong>only</strong> part of <code>set</code> assignments; it is not an
+        expression operator. <code>==</code> is the comparison. The parser rejects
+        <code>x = 5</code> outside <code>set</code>.</p>
+      </div>
+    </section>
+
+    <!-- ============ PRECEDENCE ============ -->
+    <section class="doc-section" id="sec-precedence">
+      <h2><span class="secnum">§08</span> Precedence rules</h2>
+      <p class="lede">Who wins when operators meet. Highest binds first.</p>
+
+      <table class="ref">
+        <tr><th>Level</th><th>Operators</th><th>Example → reading</th></tr>
+        <tr><td>1 · grouping</td><td><code>( )</code></td><td>always first</td></tr>
+        <tr><td>2 · postfix</td><td><code>f(x)</code> <code>xs[i]</code></td><td><code>grid[1][0]</code> = <code>(grid[1])[0]</code></td></tr>
+        <tr><td>3 · unary</td><td><code>not</code> <code>-</code></td><td><code>-x * 2</code> = <code>(-x) * 2</code></td></tr>
+        <tr><td>4 · multiplicative</td><td><code>* / %</code></td><td><code>2 + 3 * 4</code> = <code>2 + (3*4)</code> = 14</td></tr>
+        <tr><td>5 · additive</td><td><code>+ -</code></td><td></td></tr>
+        <tr><td>6 · comparison</td><td><code>&gt; &lt; &gt;= &lt;=</code></td><td><code>a + 1 &gt; b * 2</code> groups arithmetics first</td></tr>
+        <tr><td>7 · equality</td><td><code>== !=</code></td><td></td></tr>
+        <tr><td>8 · and</td><td><code>and</code></td><td><code>a and b or c</code> = <code>(a and b) or c</code></td></tr>
+        <tr><td>9 · or</td><td><code>or</code></td><td>lowest</td></tr>
+      </table>
+
+      <p>All binary operators at the same level associate <strong>left-to-right</strong>:
+      <code>10 - 3 - 2</code> is <code>(10 - 3) - 2 = 5</code>.</p>
+    </section>
+
+    <!-- ============ IF ============ -->
+    <section class="doc-section" id="sec-if">
+      <h2><span class="secnum">§09</span> if / otherwise</h2>
+      <p class="lede">Conditional execution with indentation-delimited blocks.</p>
+
+      <div class="grammar"><b>if-stmt</b>     := "if" expression ":" block
+                 ( "otherwise" ( if-stmt | ":" block ) )?
+<b>block</b>        := NEWLINE INDENT statement+ DEDENT</div>
+
+      <div class="api">
+        <div class="api-head"><span class="sig">if COND: … otherwise: …</span><span class="badge statement">statement</span></div>
+        <div class="api-body">
+          <p>Evaluates <code>COND</code>; if truthy, runs the <code>if</code> block; else the
+          <code>otherwise</code> block. <code>otherwise</code> is optional; chaining via
+          <code>otherwise if</code> builds multi-way branches — the first true condition wins and
+          the rest are skipped entirely.</p>
+          <pre data-lang="plainly">set score = 85
+if score >= 90:
+  say "A"
+otherwise if score >= 80:
+  say "B"
+otherwise:
+  say "F"</pre>
+          <div class="run-panel"><div class="rp-head">Output</div><pre></pre></div>
+        </div>
+      </div>
+
+      <ul>
+        <li>The colon after the condition is mandatory (<code>PL-005</code> otherwise, with a hint).</li>
+        <li>An empty block is <code>PL-007</code> — put at least one line inside.</li>
+        <li>Blocks do not create scope; <code>set</code> inside updates outer variables.</li>
+        <li>Conditions may be any value; see truthiness in <a href="#sec-values">§04</a>.</li>
+      </ul>
+    </section>
+
+    <!-- ============ LOOPS ============ -->
+    <section class="doc-section" id="sec-loops">
+      <h2><span class="secnum">§10</span> Loops</h2>
+      <p class="lede">Two loop forms cover every repetition need.</p>
+
+      <div class="api">
+        <div class="api-head"><span class="sig">for each NAME in ITERABLE: …</span><span class="badge statement">statement</span></div>
+        <div class="api-body">
+          <p>Iterates a <strong>list</strong> (each item) or <strong>text</strong> (each single
+          character). Anything else is a runtime <code>PL-009</code>.</p>
+          <pre data-lang="plainly">for each c in "ab":
+  say c
+for each x in [10, 20]:
+  say x</pre>
+          <div class="run-panel"><div class="rp-head">Output</div><pre></pre></div>
+          <p class="api-meta">The loop variable is declared fresh for every pass and visible only
+          inside the body. Looping over a huge list copies nothing — iteration is by reference.</p>
+        </div>
+      </div>
+
+      <div class="api">
+        <div class="api-head"><span class="sig">repeat COUNT times: …</span><span class="badge statement">statement</span></div>
+        <div class="api-body">
+          <p>Runs the block <code>COUNT</code> times. <code>COUNT</code> must be a whole number ≥ 0
+          (runtime <code>PL-009</code> otherwise). <code>repeat 0 times:</code> legitimately does
+          nothing.</p>
+          <pre data-lang="plainly">repeat 3 times:
+  say "hi"</pre>
+          <div class="run-panel"><div class="rp-head">Output</div><pre></pre></div>
+          <p class="api-meta">There is no <code>while</code> loop in v0.2 — see
+          <a href="#sec-limitations">§16</a>. Use <code>repeat</code> with a known count, or
+          <code>for each</code> over a list.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ LISTS ============ -->
+    <section class="doc-section" id="sec-lists">
+      <h2><span class="secnum">§11</span> Lists</h2>
+      <p class="lede">Ordered collections of any values.</p>
+
+      <h3>Creating &amp; reading</h3>
+      <pre data-lang="plainly">set xs = [10, 20, 30]
+say xs[0]
+say xs[2]
+say xs[1 + 1]</pre>
+      <div class="run-panel" style="display:none;"></div>
+
+      <ul>
+        <li>Positions start at <strong>0</strong>; the last valid position is <code>length(xs) - 1</code>.</li>
+        <li>Out-of-range reads are runtime error <code>PL-012</code> with a helpful message.</li>
+        <li>Lists may hold any mix of values, including other lists:
+        <code>[[1, 2], [3, 4]]</code> is a grid; <code>grid[1][0]</code> is <code>3</code>.</li>
+        <li>Text may be indexed the same way: <code>"abc"[1]</code> is <code>"b"</code>.</li>
+      </ul>
+
+      <h3>Growing &amp; combining</h3>
+      <ul>
+        <li><code>push(xs, v)</code> — adds <code>v</code> to the end of <code>xs</code> in place.</li>
+        <li><code>xs + ys</code> — a <em>new</em> list with all items of both; neither changes.</li>
+        <li><code>list(a, b, …)</code> — builds a fresh list from any values.</li>
+      </ul>
+
+      <h3>Comparing &amp; searching</h3>
+      <ul>
+        <li><code>xs == ys</code> — true when same length and each pair is <code>==</code>.</li>
+        <li><code>contains(xs, v)</code> — true when any item equals <code>v</code>.</li>
+        <li><code>length(xs)</code> — item count.</li>
+      </ul>
+    </section>
+
+    <!-- ============ FUNCTIONS ============ -->
+    <section class="doc-section" id="sec-functions">
+      <h2><span class="secnum">§12</span> Functions</h2>
+      <p class="lede">Named, reusable recipes with inputs and an output.</p>
+
+      <div class="grammar"><b>function-decl</b> := "function" IDENT "(" (IDENT ("," IDENT)*)? ")" ":" block
+<b>return-stmt</b>  := "return" expression?</div>
+
+      <div class="api">
+        <div class="api-head"><span class="sig">function NAME(P1, P2): … return …</span><span class="badge statement">statement</span></div>
+        <div class="api-body">
+          <p>Declares a function. Calling it with the wrong number of arguments is
+          <code>PL-011</code> — checked <em>statically</em> by the analyzer for known functions.
+          Duplicate parameter names are <code>PL-014</code>.</p>
+          <pre data-lang="plainly">function add(a, b):
+  return a + b
+say add(2, 3)</pre>
+          <div class="run-panel"><div class="rp-head">Output</div><pre></pre></div>
+        </div>
+      </div>
+
+      <h3>Return semantics</h3>
+      <ul>
+        <li><code>return</code> ends the call immediately, handing back one value.</li>
+        <li><code>return</code> with no value, or falling off the end of the body, returns
+        <code>nothing</code>.</li>
+        <li><code>return</code> outside any function is caught statically: <code>PL-013</code>.</li>
+      </ul>
+
+      <h3>Closures &amp; recursion</h3>
+      <ul>
+        <li>Functions remember the scope where they were <em>defined</em> (a closure), so they can
+        read variables from around their declaration.</li>
+        <li>Recursion works: a function may call itself; make sure a base case exists (see The
+        Book, chapter 11).</li>
+        <li>Functions are values: you can <code>set f = add</code> and then call <code>f(1, 2)</code>.</li>
+      </ul>
+    </section>
+
+    <!-- ============ COMMENTS ============ -->
+    <section class="doc-section" id="sec-comments">
+      <h2><span class="secnum">§13</span> Comments</h2>
+      <p class="lede">Notes for humans; completely ignored by the compiler.</p>
+
+      <pre data-lang="plainly"># Full-line comment
+set x = 5  # trailing comment
+# say "this line does nothing"</pre>
+      <div class="run-panel" style="display:none;"></div>
+
+      <ul>
+        <li><code>#</code> anywhere on a line starts the comment, which runs to the newline.</li>
+        <li>Comments are stripped by the lexer — they never affect indentation or parsing.</li>
+        <li>No block comments; repeat <code>#</code> per line.</li>
+      </ul>
+    </section>
+
+    <!-- ============ STDLIB ============ -->
+    <section class="doc-section" id="sec-stdlib">
+      <h2><span class="secnum">§14</span> Standard library — all 18 builtins</h2>
+      <p class="lede">Every builtin, its exact shape, and its behavior. Argument counts are checked statically (PL-011); kinds are checked at call time (PL-009).</p>
+
+      <h3>Text</h3>
+
+      <div class="api"><div class="api-head"><span class="sig">uppercase(text) → text</span><span class="badge builtin">builtin</span></div>
+        <div class="api-body"><p>ALL-CAPS copy of the text.</p>
+        <pre data-lang="plainly">say uppercase("hello")</pre><div class="run-panel"><div class="rp-head">Output</div><pre></pre></div></div>
+      </div>
+
+      <div class="api"><div class="api-head"><span class="sig">lowercase(text) → text</span><span class="badge builtin">builtin</span></div>
+        <div class="api-body"><p>lowercase copy of the text.</p>
+        <pre data-lang="plainly">say lowercase("WORLD")</pre><div class="run-panel"><div class="rp-head">Output</div><pre></pre></div></div>
+      </div>
+
+      <div class="api"><div class="api-head"><span class="sig">trim(text) → text</span><span class="badge builtin">builtin</span></div>
+        <div class="api-body"><p>Copy without leading/trailing spaces.</p>
+        <pre data-lang="plainly">say trim("  hi  ")</pre><div class="run-panel"><div class="rp-head">Output</div><pre></pre></div></div>
+      </div>
+
+      <div class="api"><div class="api-head"><span class="sig">split(text, separator) → list</span><span class="badge builtin">builtin</span></div>
+        <div class="api-body"><p>Cuts the text at every occurrence of <code>separator</code>.
+        Empty separator is a friendly <code>PL-009</code> (the language refuses to guess).</p>
+        <pre data-lang="plainly">say split("a,b,c", ",")</pre><div class="run-panel"><div class="rp-head">Output</div><pre></pre></div></div>
+      </div>
+
+      <div class="api"><div class="api-head"><span class="sig">join(list, separator) → text</span><span class="badge builtin">builtin</span></div>
+        <div class="api-body"><p>Glues items into one text (values are formatted like <code>say</code>).</p>
+        <pre data-lang="plainly">say join(["a", "b"], "-")</pre><div class="run-panel"><div class="rp-head">Output</div><pre></pre></div></div>
+      </div>
+
+      <div class="api"><div class="api-head"><span class="sig">contains(where, what) → boolean</span><span class="badge builtin">builtin</span></div>
+        <div class="api-body"><p>Text: is <code>what</code> inside <code>where</code>? List: does any
+        item equal <code>what</code>?</p>
+        <pre data-lang="plainly">say contains("hello", "ell")
+say contains([1, 2], 2)</pre><div class="run-panel"><div class="rp-head">Output</div><pre></pre></div></div>
+      </div>
+
+      <div class="api"><div class="api-head"><span class="sig">replace(text, from, to) → text</span><span class="badge builtin">builtin</span></div>
+        <div class="api-body"><p>Every <code>from</code> becomes <code>to</code>. Empty
+        <code>from</code> is <code>PL-009</code>.</p>
+        <pre data-lang="plainly">say replace("aaa", "a", "b")</pre><div class="run-panel"><div class="rp-head">Output</div><pre></pre></div></div>
+      </div>
+
+      <h3>Numbers</h3>
+
+      <div class="api"><div class="api-head"><span class="sig">abs(n) → number</span><span class="badge builtin">builtin</span></div>
+        <div class="api-body"><p>Distance from zero.</p>
+        <pre data-lang="plainly">say abs(-7)</pre><div class="run-panel"><div class="rp-head">Output</div><pre></pre></div></div>
+      </div>
+
+      <div class="api"><div class="api-head"><span class="sig">round(n) → number</span><span class="badge builtin">builtin</span></div>
+        <div class="api-body"><p>Nearest whole number (2.5 rounds up).</p>
+        <pre data-lang="plainly">say round(2.6)</pre><div class="run-panel"><div class="rp-head">Output</div><pre></pre></div></div>
+      </div>
+
+      <div class="api"><div class="api-head"><span class="sig">floor(n) → number</span><span class="badge builtin">builtin</span></div>
+        <div class="api-body"><p>Always rounds down.</p>
+        <pre data-lang="plainly">say floor(2.9)</pre><div class="run-panel"><div class="rp-head">Output</div><pre></pre></div></div>
+      </div>
+
+      <div class="api"><div class="api-head"><span class="sig">ceil(n) → number</span><span class="badge builtin">builtin</span></div>
+        <div class="api-body"><p>Always rounds up.</p>
+        <pre data-lang="plainly">say ceil(2.1)</pre><div class="run-panel"><div class="rp-head">Output</div><pre></pre></div></div>
+      </div>
+
+      <div class="api"><div class="api-head"><span class="sig">min(a, b) → number</span><span class="badge builtin">builtin</span></div>
+        <div class="api-body"><p>The smaller.</p>
+        <pre data-lang="plainly">say min(3, 9)</pre><div class="run-panel"><div class="rp-head">Output</div><pre></pre></div></div>
+      </div>
+
+      <div class="api"><div class="api-head"><span class="sig">max(a, b) → number</span><span class="badge builtin">builtin</span></div>
+        <div class="api-body"><p>The larger.</p>
+        <pre data-lang="plainly">say max(3, 9)</pre><div class="run-panel"><div class="rp-head">Output</div><pre></pre></div></div>
+      </div>
+
+      <h3>Conversion</h3>
+
+      <div class="api"><div class="api-head"><span class="sig">number(value) → number</span><span class="badge builtin">builtin</span></div>
+        <div class="api-body"><p>Numbers pass through; numeric text converts; anything else is a
+        friendly <code>PL-009</code> explaining what went wrong.</p>
+        <pre data-lang="plainly">say number("42") + 1</pre><div class="run-panel"><div class="rp-head">Output</div><pre></pre></div></div>
+      </div>
+
+      <div class="api"><div class="api-head"><span class="sig">text(value) → text</span><span class="badge builtin">builtin</span></div>
+        <div class="api-body"><p>Display form of any value — same rules as <code>say</code>.</p>
+        <pre data-lang="plainly">say text(42) + "!"</pre><div class="run-panel"><div class="rp-head">Output</div><pre></pre></div></div>
+      </div>
+
+      <h3>Lists</h3>
+
+      <div class="api"><div class="api-head"><span class="sig">push(list, value) → list</span><span class="badge builtin">builtin</span></div>
+        <div class="api-body"><p>Appends in place and returns the same list.</p>
+        <pre data-lang="plainly">set xs = [1]
+push(xs, 2)
+say xs</pre><div class="run-panel"><div class="rp-head">Output</div><pre></pre></div></div>
+      </div>
+
+      <div class="api"><div class="api-head"><span class="sig">list(...) → list</span><span class="badge builtin">builtin</span></div>
+        <div class="api-body"><p>A fresh list of any values given (accepts zero or more).</p>
+        <pre data-lang="plainly">say list(1, "a", true)</pre><div class="run-panel"><div class="rp-head">Output</div><pre></pre></div></div>
+      </div>
+
+      <h3>Measurement</h3>
+
+      <div class="api"><div class="api-head"><span class="sig">length(value) → number</span><span class="badge builtin">builtin</span></div>
+        <div class="api-body"><p>Characters in text or items in a list; other kinds are
+        <code>PL-009</code>.</p>
+        <pre data-lang="plainly">say length("hello")
+say length([1, 2, 3])</pre><div class="run-panel"><div class="rp-head">Output</div><pre></pre></div></div>
+      </div>
+    </section>
+
+    <!-- ============ ERRORS ============ -->
+    <section class="doc-section" id="sec-errors">
+      <h2><span class="secnum">§15</span> Error codes PL-001 … PL-017</h2>
+      <p class="lede">Every diagnostic in the language: what triggers it, whether it stops the program, and the fix.</p>
+
+      <p>Diagnostics come in two severities: <strong>errors</strong> (stop the program; a
+      <code>plainly check</code> failure) and <strong>warnings</strong> (printed, program still
+      runs). Format:</p>
+
+      <div class="grammar">PL-002 at line 2, column 5: You tried to use 'agge', but it doesn't exist yet.
+
+    say agge
+        ^^^^
+Hint: Did you mean 'age'?</div>
+
+      <table class="ref">
+        <tr><th>Code</th><th>Severity</th><th>Triggered when</th><th>The fix</th></tr>
+        <tr><td><code>PL-001</code></td><td>error</td><td>A character outside the language appears in code</td><td>Remove it; check for typos (lexer suggests)</td></tr>
+        <tr><td><code>PL-002</code></td><td>error</td><td>A name is used that was never created (analyzer + runtime)</td><td>Fix spelling (did-you-mean) or <code>set</code> it first</td></tr>
+        <tr><td><code>PL-003</code></td><td>error</td><td>A string has no closing <code>"</code></td><td>Close the quote on the same line</td></tr>
+        <tr><td><code>PL-004</code></td><td>error</td><td>Indentation is odd or misaligned</td><td>2 spaces per level; align block lines</td></tr>
+        <tr><td><code>PL-005</code></td><td>error</td><td>Grammar violated (missing colon, stray token…)</td><td>Message names what was expected; hints for <code>:</code> <code>)</code> <code>]</code></td></tr>
+        <tr><td><code>PL-006</code></td><td>error</td><td>Unknown <code>\</code> escape in a string</td><td>Use <code>\n \t \" \\</code></td></tr>
+        <tr><td><code>PL-007</code></td><td>error</td><td>Block after <code>:</code> has no statements</td><td>Add an indented line</td></tr>
+        <tr><td><code>PL-008</code></td><td>error</td><td><code>/</code> or <code>%</code> with zero divisor</td><td>Check the divider before dividing</td></tr>
+        <tr><td><code>PL-009</code></td><td>error</td><td>A value of the wrong kind reaches an operation or builtin</td><td>Convert with <code>number()</code>/<code>text()</code>; see operator table §07</td></tr>
+        <tr><td><code>PL-010</code></td><td>error</td><td>Calling a value that isn't a function</td><td>Check the name</td></tr>
+        <tr><td><code>PL-011</code></td><td>error</td><td>Wrong argument count (builtins checked statically too)</td><td>Match the signature; <code>plainly explain &lt;fn&gt;</code></td></tr>
+        <tr><td><code>PL-012</code></td><td>error</td><td>Index outside <code>0 … length-1</code></td><td>Guard with <code>if i &lt; length(xs):</code></td></tr>
+        <tr><td><code>PL-013</code></td><td>error</td><td><code>return</code> appears outside a function</td><td>Move it inside (caught statically)</td></tr>
+        <tr><td><code>PL-014</code></td><td>error</td><td>A function declares the same parameter twice</td><td>Rename (caught statically)</td></tr>
+        <tr><td><code>PL-015</code></td><td><strong>warning</strong></td><td>A variable (or loop variable) is set but never used</td><td>Use it or remove it — the program still runs</td></tr>
+        <tr><td><code>PL-016</code></td><td>error</td><td>Operation unsupported for these kinds (e.g. <code>[1] - [1]</code>)</td><td>Numbers subtract, text joins, lists combine</td></tr>
+        <tr><td><code>PL-017</code></td><td>error</td><td>Reserved word used as a variable/function name</td><td>Pick another name</td></tr>
+      </table>
+
+      <div class="callout tip">
+        <span class="co-icon">🧭</span>
+        <p>From the terminal: <code>plainly explain PL-011</code> prints a short lesson on any code;
+        <code>plainly explain split</code> documents any builtin.</p>
+      </div>
+    </section>
+
+    <!-- ============ GRAMMAR ============ -->
+    <section class="doc-section" id="sec-grammar">
+      <h2><span class="secnum">§16</span> Formal grammar (EBNF)</h2>
+      <p class="lede">The whole language, formally. This is what the parser implements.</p>
+
+      <div class="grammar">program       := statement*
+
+statement     := say-stmt | set-stmt | if-stmt | for-each-stmt
+               | repeat-stmt | function-decl | return-stmt | expr-stmt
+
+say-stmt      := "say" expression
+set-stmt      := "set" IDENT "=" expression
+if-stmt       := "if" expression ":" block
+                 ( "otherwise" ( if-stmt | ":" block ) )?
+for-each-stmt := "for" "each" IDENT "in" expression ":" block
+repeat-stmt   := "repeat" expression "times" ":" block
+function-decl := "function" IDENT "(" params? ")" ":" block
+params        := IDENT ( "," IDENT )*
+return-stmt   := "return" expression?
+expr-stmt     := expression
+block         := INDENT statement+ DEDENT
+
+expression    := or-expr
+or-expr       := and-expr ( "or" and-expr )*
+and-expr      := eq-expr ( "and" eq-expr )*
+eq-expr       := cmp-expr ( ( "==" | "!=" ) cmp-expr )*
+cmp-expr      := add-expr ( ( ">" | "<" | ">=" | "<=" ) add-expr )*
+add-expr      := mul-expr ( ( "+" | "-" ) mul-expr )*
+mul-expr      := unary-expr ( ( "*" | "/" | "%" ) unary-expr )*
+unary-expr    := ( "not" | "-" ) unary-expr | postfix-expr
+postfix-expr  := primary ( call-suffix | index-suffix )*
+call-suffix   := "(" args? ")"
+index-suffix  := "[" expression "]"
+args          := expression ( "," expression )*
+primary       := NUMBER | STRING | "true" | "false" | IDENT
+               | "[" args? "]" | "(" expression ")"</div>
+
+      <p>Tokens <code>INDENT</code>/<code>DEDENT</code>/<code>NEWLINE</code> are synthesized by the
+      lexer from indentation — the same design Python uses. A tree-sitter grammar mirroring these
+      rules lives in <code>grammar/tree-sitter-plainly/</code> for editor tooling.</p>
+    </section>
+
+    <!-- ============ CLI ============ -->
+    <section class="doc-section" id="sec-cli">
+      <h2><span class="secnum">§17</span> CLI reference</h2>
+      <p class="lede">The <code>plainly</code> command, every subcommand and flag.</p>
+
+      <table class="ref">
+        <tr><th>Command</th><th>Purpose</th><th>Exit code</th></tr>
+        <tr><td><code>plainly run file.pl</code></td><td>Check, then run. Warnings print to stderr; output to stdout.</td><td>0 ok · 1 on any error</td></tr>
+        <tr><td><code>plainly check file.pl</code></td><td>Parse + full static analysis; reports <strong>all</strong> diagnostics sorted by line.</td><td>0 clean · 0 warnings-only · 1 errors</td></tr>
+        <tr><td><code>plainly ast file.pl</code></td><td>Print the parsed AST as JSON (great for learning the tree).</td><td>0 ok · 1 parse error</td></tr>
+        <tr><td><code>plainly explain CODE</code></td><td>Explain an error code (<code>PL-002</code>) or a builtin (<code>split</code>).</td><td>0 ok · 1 unknown topic</td></tr>
+        <tr><td><code>plainly repl</code></td><td>Interactive prompt; each line is checked and run immediately.</td><td>Ctrl+C to exit</td></tr>
+        <tr><td><code>plainly version</code></td><td>Print the version.</td><td>0</td></tr>
+        <tr><td><code>plainly help</code></td><td>Command overview.</td><td>0</td></tr>
+      </table>
+
+      <div class="callout info">
+        <span class="co-icon">💡</span>
+        <p>Build once with <code>npm run build</code>, then run
+        <code>node dist/cli.js run hello.pl</code> — or <code>npm link</code> once to get the
+        global <code>plainly</code> command.</p>
+      </div>
+    </section>
+
+    <!-- ============ INTERNALS ============ -->
+    <section class="doc-section" id="sec-internals">
+      <h2><span class="secnum">§18</span> How the compiler works</h2>
+      <p class="lede">Five stations between your text and its behavior.</p>
+
+      <div class="grammar">source.pl
+  ↓ tokenize()      src/lexer.ts      → Token[]       (words, strings, INDENT/DEDENT, positions)
+  ↓ parse()         src/parser.ts     → Program (AST) (precedence climbing, block rules)
+  ↓ analyze()       src/analyzer.ts   → Diagnostic[]  (all static checks in one pass)
+  ↓ Interpreter     src/interpreter.ts→ output        (tree-walking executor + Environment chain)
+  ↓ formatValue()   src/format.ts     → display text  (shared by say, text(), join())</div>
+
+      <h3>Design notes worth knowing</h3>
+      <ul>
+        <li><strong>Positions everywhere.</strong> Every AST node carries line/column; every
+        diagnostic uses them for the caret.</li>
+        <li><strong>Suggestions are distance-based.</strong> Misspelled names are compared to all
+        visible names + builtins with capped Levenshtein distance; only close matches are offered.</li>
+        <li><strong>The analyzer models scopes exactly like the interpreter</strong> — if check
+        passes, the names will resolve the same way at runtime.</li>
+        <li><strong>Builtins are ordinary values</strong> (native functions) living in the global
+        environment; shadowing them is allowed but warned about.</li>
+        <li><strong>Short-circuit evaluation</strong>: <code>and</code>/<code>or</code> never
+        evaluate the right side unless needed.</li>
+      </ul>
+
+      <h3>Public API (for embedding)</h3>
+      <div class="grammar">import { runSource, checkSource, compileToAst, analyze,
+       formatError, ERROR_CODES, STDLIB_DOCS } from "plainly"
+
+runSource(src, print)      → { output, warnings }   (throws PlainError)
+checkSource(src)           → { ok, diagnostics, ast }
+compileToAst(src)          → Program                 (throws on syntax errors)</div>
+    </section>
+
+    <!-- ============ LIMITATIONS ============ -->
+    <section class="doc-section" id="sec-limitations">
+      <h2><span class="secnum">§19</span> Current limitations</h2>
+      <p class="lede">Honest boundaries of v0.2 — and what's planned.</p>
+
+      <table class="ref">
+        <tr><th>Not in v0.2</th><th>Workaround today</th><th>Planned</th></tr>
+        <tr><td>No <code>while</code> loops</td><td><code>repeat N times:</code> or <code>for each</code></td><td>v0.3, with loop-safety analysis</td></tr>
+        <tr><td>No removing from lists</td><td>Rebuild with <code>for each</code> + <code>+</code></td><td><code>remove</code>, <code>slice</code> builtins</td></tr>
+        <tr><td>No string interpolation</td><td><code>"a " + x + " b"</code></td><td>Under consideration</td></tr>
+        <tr><td>No dictionaries / objects</td><td>Parallel lists</td><td>v0.4 — key foundation for PIR &amp; CRUD</td></tr>
+        <tr><td>No files, network, or randomness</td><td>—</td><td>Phase 3 (backend targets)</td></tr>
+        <tr><td>No <code>break</code>/<code>continue</code></td><td>Restructure with <code>if</code></td><td>With <code>while</code> in v0.3</td></tr>
+        <tr><td>No modules or imports</td><td>Single-file programs</td><td>After PIR lands</td></tr>
+      </table>
+
+      <p>The next milestone (Phase 3) is the <strong>PIR</strong> — an intermediate representation
+      that will let one Plainly description generate React, backend, and database code. The
+      language you just read is its foundation.</p>
+    </section>
+
+    <footer class="doc-footer" style="margin-top:60px;">
+      <p>Plainly Reference · v0.2 · Every example on this page runs on the real compiler.<br />
+      <a href="../book/index.html">Prefer learning step by step? Read The Plainly Book →</a></p>
+    </footer>
+  </main>
+</div>
+
+<script type="module">
+  import * as K from "../assets/plainly.js"
+  window.PlainlyDocs = K
+</script>
+<script src="assets/docs.js"></script>
+</body>
+</html>

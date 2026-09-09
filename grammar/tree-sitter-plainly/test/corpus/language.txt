@@ -1,0 +1,182 @@
+==================
+say with string
+==================
+
+say "Hello World"
+
+---
+
+(program
+  (say_statement
+    (string)))
+
+==================
+set statement
+==================
+
+set name = "Plainly"
+
+---
+
+(program
+  (set_statement
+    (identifier)
+    (string)))
+
+==================
+binary expressions respect precedence
+==================
+
+set t = 2 + 3 * 4
+
+---
+
+(program
+  (set_statement
+    (identifier)
+    (binary_expression
+      (number)
+      (binary_expression
+        (number)
+        (number)))))
+
+==================
+if / otherwise block
+==================
+
+if age >= 18:
+  say "Adult"
+otherwise:
+  say "Minor"
+
+---
+
+(program
+  (if_statement
+    (binary_expression
+      (identifier)
+      (number))
+    (block
+      (say_statement
+        (string)))
+    (block
+      (say_statement
+        (string)))))
+
+==================
+otherwise if chain
+==================
+
+if a:
+  say 1
+otherwise if b:
+  say 2
+otherwise:
+  say 3
+
+---
+
+(program
+  (if_statement
+    (identifier)
+    (block
+      (say_statement
+        (number)))
+    (if_statement
+      (identifier)
+      (block
+        (say_statement
+          (number)))
+      (block
+        (say_statement
+          (number))))))
+
+==================
+for each loop
+==================
+
+for each name in names:
+  say name
+
+---
+
+(program
+  (for_each_statement
+    (identifier)
+    (identifier)
+    (block
+      (say_statement
+        (identifier)))))
+
+==================
+repeat loop
+==================
+
+repeat 3 times:
+  say "hi"
+
+---
+
+(program
+  (repeat_statement
+    (number)
+    (block
+      (say_statement
+        (string)))))
+
+==================
+function with params and return
+==================
+
+function add(a, b):
+  return a + b
+
+---
+
+(program
+  (function_definition
+    (identifier)
+    (parameter_list
+      (identifier)
+      (identifier))
+    (block
+      (return_statement
+        (binary_expression
+          (identifier)
+          (identifier)))))
+
+==================
+call and index
+==================
+
+say numbers[1 + 1]
+say add(2, 3)
+
+---
+
+(program
+  (say_statement
+    (index_expression
+      (identifier)
+      (binary_expression
+        (number)
+        (number))))
+  (say_statement
+    (call_expression
+      (identifier)
+      (argument_list
+        (number)
+        (number)))))
+
+==================
+comments are extras
+==================
+
+# a whole-line comment
+say 1  # trailing
+
+---
+
+(program
+  (say_statement
+    (number)))

@@ -1,0 +1,25 @@
+{
+  "name": "tree-sitter-plainly",
+  "version": "0.2.0",
+  "description": "Plainly grammar for tree-sitter (editor tooling)",
+  "main": "grammar.js",
+  "keywords": ["tree-sitter", "plainly", "grammar"],
+  "license": "MIT",
+  "tree-sitter": [
+    {
+      "scope": "source.pl",
+      "file-types": ["kml"],
+      "highlights": "queries/highlights.scm"
+    }
+  ],
+  "dependencies": {
+    "nan": "^2.18.0"
+  },
+  "devDependencies": {
+    "tree-sitter-cli": "^0.22.6"
+  },
+  "scripts": {
+    "generate": "tree-sitter generate",
+    "test": "tree-sitter test"
+  }
+}

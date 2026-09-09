@@ -1,0 +1,1648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Plainly Book — learn the human-first language</title>
+<meta name="description" content="A visual-first book that teaches Plainly from zero: every keyword, every builtin, loops, lists, functions, errors, how the compiler works, and building real apps — with live runnable examples." />
+<link rel="stylesheet" href="assets/style.css" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23e8590c'/><text x='50' y='68' font-size='52' text-anchor='middle' fill='white' font-family='sans-serif' font-weight='bold'>K</text></svg>" />
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="logo" href="#top"><span class="logo-mark">K</span> Plainly&nbsp;<span class="muted" style="font-weight:600;font-size:14px;">The Book · v0.4</span></a>
+    <span class="topbar-spacer"></span>
+    <a class="navlink" href="../docs/start.html" style="color:var(--accent);font-weight:700;">Start here</a>
+    <a class="navlink" href="../docs/index.html">Documentation</a>
+    <a class="navlink" href="#appendix-cheatsheet">Cheatsheet</a>
+    <button class="menu-btn" aria-expanded="false" aria-label="Open chapter menu">☰ Chapters</button>
+  </div>
+</header>
+
+<div class="layout" id="top">
+
+  <!-- ======================= SIDEBAR ======================= -->
+  <aside class="sidebar" id="sidebar">
+    <h4>Start here</h4>
+    <ol>
+      <li><a href="#ch-01">Why Plainly?</a></li>
+      <li><a href="#ch-02">How Plainly works</a></li>
+      <li><a href="#ch-03">Your first program</a></li>
+    </ol>
+    <h4>The language</h4>
+    <ol>
+      <li><a href="#ch-04">say — showing values</a></li>
+      <li><a href="#ch-05">Variables with set</a></li>
+      <li><a href="#ch-06">Text</a></li>
+      <li><a href="#ch-07">Numbers &amp; math</a></li>
+      <li><a href="#ch-08">Making decisions</a></li>
+      <li><a href="#ch-09">Loops</a></li>
+      <li><a href="#ch-10">Lists</a></li>
+      <li><a href="#ch-11">Functions</a></li>
+      <li><a href="#ch-12">The built-in toolbox</a></li>
+      <li><a href="#ch-13">Comments &amp; good style</a></li>
+    </ol>
+    <h4>Going deeper</h4>
+    <ol>
+      <li><a href="#ch-14">When things go wrong</a></li>
+      <li><a href="#ch-15">Inside the compiler</a></li>
+      <li><a href="#ch-16">Build a real app</a></li>
+      <li><a href="#ch-17">Mini projects</a></li>
+      <li><a href="#appendix-cheatsheet">Appendix: cheatsheet</a></li>
+      <li><a href="#appendix-next">Where to go next</a></li>
+    </ol>
+    <div class="progress-rail"><div class="progress-fill"></div></div>
+  </aside>
+
+  <!-- ======================= CONTENT ======================= -->
+  <main class="content">
+
+    <!-- HERO -->
+    <section class="hero">
+      <span class="kicker">The Plainly Book · v0.4</span>
+      <h1>Learn to program in a language that speaks <em>human</em>.</h1>
+      <p class="lead">
+        Plainly is a small, friendly programming language. This book teaches you <strong>all of it</strong> —
+        every keyword, every tool, how the compiler thinks, and how to turn one file into a real web app.
+        Everything is explained in plain words, with pictures first and
+        <strong>live, runnable examples</strong> on every page. Press <span class="chip" style="border-style:dashed;">▶ Run</span> anywhere.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="../docs/start.html">New here? Start in 5 minutes</a>
+        <a class="btn btn-ghost" href="#ch-01">Start reading — Chapter 1</a>
+        <a class="btn btn-ghost" href="../docs/index.html">Full documentation</a>
+      </div>
+    </section>
+
+    <!-- ======================================================
+         CHAPTER 1 — WHY
+    ======================================================= -->
+    <section class="chapter" id="ch-01">
+      <h2><span class="chnum">01</span> Why Plainly exists</h2>
+      <p class="subtitle">The problem it solves, and who it is for.</p>
+
+      <p>Learning your first programming language is hard. But here is a secret:
+      most of the pain comes from the <em>rituals</em>, not the ideas. Compare the
+      same idea — "show a greeting" — in JavaScript and in Plainly:</p>
+
+      <div class="compare">
+        <div class="panel bad">
+          <div class="panel-head">JavaScript</div>
+          <pre>const name = "Plainly";
+console.log(`Hello, ${name}!`);</pre>
+        </div>
+        <div class="panel good">
+          <div class="panel-head">Plainly</div>
+          <pre>set name = "Plainly"
+say "Hello, " + name + "!"</pre>
+        </div>
+      </div>
+
+      <p>The idea is identical. But JavaScript asks for semicolons, backticks,
+      dollar-braces and a word called <code>const</code> before the computer will
+      listen. Plainly just says what it means.</p>
+
+      <h3>Who is this book for?</h3>
+      <div class="grid cols-3">
+        <div class="card"><span class="c-icon">🌱</span><h3>Complete beginners</h3>
+          <p>You have never programmed. Good — this book assumes nothing and explains every word.</p></div>
+        <div class="card"><span class="c-icon">🧑‍🏫</span><h3>Teachers &amp; students</h3>
+          <p>Plainly is small enough to learn fully in a week, so classes can cover the whole language.</p></div>
+        <div class="card"><span class="c-icon">🛠️</span><h3>Busy developers</h3>
+          <p>Describe an app in 16 lines and generate the database, API and UI with <code>plainly build</code>.</p></div>
+      </div>
+
+      <h3>What makes it different?</h3>
+      <div class="grid cols-2">
+        <div class="card"><span class="c-icon">💬</span><h3>Errors that talk like a person</h3>
+          <p>When something breaks, Plainly tells you what happened, where, and how to fix it — in plain English, with a code like <code>PL-002</code> you can look up.</p></div>
+        <div class="card"><span class="c-icon">📦</span><h3>The whole language fits in your head</h3>
+          <p>16 keywords. 18 built-in tools. That's the entire language. Nothing is hidden from you.</p></div>
+        <div class="card"><span class="c-icon">🧗</span><h3>An honest ladder to real languages</h3>
+          <p>Everything you learn here transfers: variables, loops, functions, lists. Plainly is a stepping stone, not a detour.</p></div>
+        <div class="card"><span class="c-icon">🚀</span><h3>One file → a real app</h3>
+          <p>Describe pages, forms and databases. Run <code>plainly build</code>. Get a working full-stack project. (Chapter 16.)</p></div>
+      </div>
+
+      <div class="callout tip"><span class="co-icon">💡</span><p><strong>How to read this book.</strong> Read top to bottom — each chapter
+      uses only what came before. Press <span class="chip">▶ Run</span> on every example. Change the code. Breaking
+      things here is free and teaches more than reading ever will.</p></div>
+    </section>
+
+    <!-- ======================================================
+         CHAPTER 2 — HOW IT WORKS
+    ======================================================= -->
+    <section class="chapter" id="ch-02">
+      <h2><span class="chnum">02</span> How Plainly works</h2>
+      <p class="subtitle">What happens between pressing Run and seeing output.</p>
+
+      <p>You don't <em>need</em> this chapter to write programs. But knowing the
+      journey makes everything less mysterious — like knowing a kitchen still
+      works even when you can't see the chef.</p>
+
+      <div class="diagram">
+        <div class="d-title">The journey of a program</div>
+        <div class="flow">
+          <div class="node">your .pl file</div><div class="arrow">→</div>
+          <div class="node">Lexer 📖</div><div class="arrow">→</div>
+          <div class="node">Parser 🌳</div><div class="arrow">→</div>
+          <div class="node">Analyzer 🔍</div><div class="arrow">→</div>
+          <div class="node">Interpreter ▶️</div><div class="arrow">→</div>
+          <div class="node">output</div>
+        </div>
+      </div>
+
+      <div class="grid cols-4">
+        <div class="card"><span class="c-icon">📖</span><h3>1. Lexer</h3><p>Reads your text character by character and chops it into <strong>tokens</strong> — the words and symbols of the language. <code>say "hi"</code> becomes <code>SAY</code>, <code>STRING("hi")</code>.</p></div>
+        <div class="card"><span class="c-icon">🌳</span><h3>2. Parser</h3><p>Turns the flat list of tokens into a <strong>tree</strong> (the AST) that captures meaning: "this is a print statement, whose value is this text".</p></div>
+        <div class="card"><span class="c-icon">🔍</span><h3>3. Analyzer</h3><p>Walks the tree before anything runs: does every name exist? Does every function get the right number of values? It reports <em>all</em> problems at once.</p></div>
+        <div class="card"><span class="c-icon">▶️</span><h3>4. Interpreter</h3><p>Executes the tree, line by line, top to bottom — and your output appears.</p></div>
+      </div>
+
+      <h3>And when you compile (Chapter 15 &amp; 16)?</h3>
+      <p>For building real apps, the tree is translated into an even simpler
+      internal form called <strong>PIR</strong> — the meaning of your program, written
+      so machines can turn it into SQL, a Node.js server, and a React app:</p>
+
+      <div class="diagram">
+        <div class="d-title">The full pipeline (v0.4)</div>
+        <div class="flow">
+          <div class="node">Plainly</div><div class="arrow">→</div>
+          <div class="node">AST</div><div class="arrow">→</div>
+          <div class="node">PIR 🧠</div><div class="arrow">→</div>
+          <div class="node">SQL + API + UI</div>
+        </div>
+      </div>
+
+      <div class="callout info"><span class="co-icon">ℹ️</span><p><strong>One idea, many machines.</strong> PIR describes
+      <em>what</em> your app means — "there is a page with a form that saves Products" — never <em>how</em> a specific
+      technology does it. That's why the same file can generate a web app today and a mobile app tomorrow.</p></div>
+    </section>
+
+    <!-- ======================================================
+         CHAPTER 3 — FIRST PROGRAM
+    ======================================================= -->
+    <section class="chapter" id="ch-03">
+      <h2><span class="chnum">03</span> Your first program</h2>
+      <p class="subtitle">One line. Press Run. You're a programmer.</p>
+
+      <div class="codeblock">
+        <div class="cb-head">
+          <span class="cb-title">hello.pl</span>
+          <span class="cb-actions">
+            <button class="cb-btn copy">Copy</button>
+            <button class="cb-btn run">▶ Run</button>
+          </span>
+        </div>
+        <pre data-lang="plainly">say "Hello World"</pre>
+        <div class="run-panel"><div class="rp-head">Output</div><pre></pre></div>
+      </div>
+
+      <p>That's it. That is a complete, real program — the same "hello world"
+      that other languages wrap in classes and semicolons.</p>
+
+      <p>A program is simply a list of instructions that the computer reads
+      <strong>top to bottom</strong>, like a recipe:</p>
+
+      <div class="codeblock">
+        <div class="cb-head">
+          <span class="cb-title">A program is a recipe</span>
+          <span class="cb-actions">
+            <button class="cb-btn copy">Copy</button>
+            <button class="cb-btn run">▶ Run</button>
+          </span>
+        </div>
+        <pre data-lang="plainly"># A program is a list of instructions.
+# The computer reads them top to bottom, like a recipe.
+
+say "Step 1: preheat the oven"
+say "Step 2: mix the batter"
+say "Step 3: bake for 30 minutes"</pre>
+        <div class="run-panel"><div class="rp-head">Output</div><pre></pre></div>
+      </div>
+
+      <p>Lines starting with <code>#</code> are <strong>comments</strong> — notes for humans, ignored
+      by the computer. (More in Chapter 13.)</p>
+
+      <h3>Running files on your computer</h3>
+      <div class="table-wrap">
+        <table class="ref">
+          <tr><th>Command</th><th>What it does</th></tr>
+          <tr><td><code>plainly run hello.pl</code></td><td>checks the file, then runs it</td></tr>
+          <tr><td><code>plainly check hello.pl</code></td><td>looks for problems without running</td></tr>
+          <tr><td><code>plainly explain hello.pl</code></td><td>explains your program in plain English</td></tr>
+        </table>
+      </div>
+
+      <div class="callout tip"><span class="co-icon">🎓</span><p>If you've run your first program, you have
+      already done the hardest thing: started. Everything else is just adding words to your vocabulary.</p></div>
+    </section>
+
+    <!-- ======================================================
+         CHAPTER 4 — SAY
+    ======================================================= -->
+    <section class="chapter" id="ch-04">
+      <h2><span class="chnum">04</span> say — showing values</h2>
+      <p class="subtitle">Your window into the program.</p>
+
+      <p><code>say</code> prints a value where you can see it. It works on every kind
+      of value Plainly has:</p>
+
+      <div class="codeblock">
+        <div class="cb-head">
+          <span class="cb-title">say knows every kind of value</span>
+          <span class="cb-actions">
+            <button class="cb-btn copy">Copy</button>
+            <button class="cb-btn run">▶ Run</button>
+          </span>
+        </div>
+        <pre data-lang="plainly">say "text in quotes"
+say 42
+say 3.14
+say true
+say [1, 2, 3]</pre>
+        <div class="run-panel"><div class="rp-head">Output</div><pre></pre></div>
+      </div>
+
+      <div class="diagram">
+        <div class="d-title">The four kinds of value (know these and you know the language)</div>
+        <div class="memory">
+          <div class="cell str"><div class="k">text</div><div class="v">"hello"</div></div>
+          <div class="cell num"><div class="k">number</div><div class="v">42</div></div>
+          <div class="cell bool"><div class="k">true/false</div><div class="v">true</div></div>
+          <div class="cell"><div class="k">list</div><div class="v">[1, 2, 3]</div></div>
+        </div>
+      </div>
+
+      <h3>say can do math too</h3>
+      <p>Whatever you put after <code>say</code> is <em>worked out first</em>, then printed:</p>
+
+      <div class="codeblock">
+        <div class="cb-head">
+          <span class="cb-title">Math before printing</span>
+          <span class="cb-actions">
+            <button class="cb-btn copy">Copy</button>
+            <button class="cb-btn run">▶ Run</button>
+          </span>
+        </div>
+        <pre data-lang="plainly">say 2 + 2
+say 10 - 3
+say 4 * 5
+say 10 / 4
+say 10 % 3</pre>
+        <div class="run-panel"><div class="rp-head">Output</div><pre></pre></div>
+      </div>
+
+      <p><code>%</code> is the <strong>remainder</strong> — what's left over after dividing.
+      <code>10 % 3</code> is 1, because 10 = 3×3 with 1 left over. You'll use it constantly
+      (Chapter 9 shows why).</p>
+
+      <div class="callout warn"><span class="co-icon">⚠️</span><p><code>say</code> is your best debugging tool.
+      When a program misbehaves, <code>say</code> the values along the way and watch where they stop being what you expect.</p></div>
+    </section>
+
+    <!-- ======================================================
+         CHAPTER 5 — VARIABLES
+    ======================================================= -->
+    <section class="chapter" id="ch-05">
+      <h2><span class="chnum">05</span> Variables with set</h2>
+      <p class="subtitle">Boxes with names.</p>
+
+      <p>A variable is a <strong>labelled box</strong> in the computer's memory.
+      <code>set</code> puts a value into the box. Writing the name later reads what's inside.</p>
+
+      <div class="codeblock">
+        <div class="cb-head">
+          <span class="cb-title">Two boxes</span>
+          <span class="cb-actions">
+            <button class="cb-btn copy">Copy</button>
+            <button class="cb-btn run">▶ Run</button>
+          </span>
+        </div>
+        <pre data-lang="plainly">set name = "Plainly"
+set age = 23
+
+say name
+say age</pre>
+        <div class="run-panel"><div class="rp-head">Output</div><pre></pre></div>
+      </div>
+
+      <div class="diagram">
+        <div class="d-title">What <code>set name = "Plainly"</code> does</div>
+        <div class="memory">
+          <div class="cell str"><div class="k">name</div><div class="v">"Plainly"</div></div>
+          <div class="cell num"><div class="k">age</div><div class="v">23</div></div>
+        </div>
+      </div>
+
+      <h3>Boxes combine</h3>
+      <p>The real power: use boxes to build new boxes.</p>
+
+      <div class="codeblock">
+        <div class="cb-head">
+          <span class="cb-title">Combining boxes</span>
+          <span class="cb-actions">
+            <button class="cb-btn copy">Copy</button>
+            <button class="cb-btn run">▶ Run</button>
+          </span>
+        </div>
+        <pre data-lang="plainly">set apples = 3
+set oranges = 5
+
+set fruit = apples + oranges
+say "I have " + text(fruit) + " pieces of fruit"</pre>
+        <div class="run-panel"><div class="rp-head">Output</div><pre></pre></div>
+      </div>
+
+      <p><code>text(fruit)</code> turns the number 8 into the text "8" so it can be glued
+      onto a sentence. (<code>text</code> is one of the 18 built-in tools — Chapter 12.)</p>
+
+      <h3>Boxes can be refilled</h3>
+      <p>Setting a variable again <strong>replaces</strong> what was inside. The old
+      value is gone. This is how programs remember things that change — scores,
+      totals, counters:</p>
+
+      <div class="codeblock">
+        <div class="cb-head">
+          <span class="cb-title">Refilling a box</span>
+          <span class="cb-actions">
+            <button class="cb-btn copy">Copy</button>
+            <button class="cb-btn run">▶ Run</button>
+          </span>
+        </div>
+        <pre data-lang="plainly">set score = 0
+say score
+
+set score = score + 10
+say score
+
+set score = score + 15
+say score</pre>
+        <div class="run-panel"><div class="rp-head">Output</div><pre></pre></div>
+      </div>
+
+      <p>Read <code>set score = score + 10</code> from the right side first: "take what's
+      in score (0), add 10, put the result back in score". This pattern —
+      <strong>update in place</strong> — is everywhere in programming.</p>
+
+      <h3>Rules for names</h3>
+      <div class="grid cols-2">
+        <div class="card tint-green"><span class="c-icon">✅</span><h3>Good names</h3>
+          <p><code>age</code>, <code>total_price</code>, <code>firstName</code>, <code>list2</code> — letters, digits, underscores. Start with a letter. Make names say what's inside.</p></div>
+        <div class="card tint-red"><span class="c-icon">🚫</span><h3>Not allowed</h3>
+          <p><code>2cool</code> (starts with a digit), <code>my name</code> (has a space), <code>set</code> (a reserved word — Chapter 14 explains).</p></div>
+      </div>
+    </section>
+
+    <!-- ======================================================
+         CHAPTER 6 — TEXT
+    ======================================================= -->
+    <section class="chapter" id="ch-06">
+      <h2><span class="chnum">06</span> Text</h2>
+      <p class="subtitle">Words, sentences, and gluing them together.</p>
+
+      <p>Text (programmers say "string") is any characters inside
+      <strong>double quotes</strong>. The <code>+</code> sign glues text together —
+      and if one side is text, it happily glues numbers and other values too:</p>
+
+      <div class="codeblock">
+        <div class="cb-head">
+          <span class="cb-title">Gluing text</span>
+          <span class="cb-actions">
+            <button class="cb-btn copy">Copy</button>
+            <button class="cb-btn run">▶ Run</button>
+          </span>
+        </div>
+        <pre data-lang="plainly">say "Hello " + "World"
+
+set age = 23
+say "Age: " + age</pre>
+        <div class="run-panel"><div class="rp-head">Output</div><pre></pre></div>
+      </div>
+
+      <div class="callout info"><span class="co-icon">ℹ️</span><p><code>"Age: " + age</code> works because
+      one side is text. But <code>age + 1</code> is number + number. Plainly picks the operation by what the
+      values <em>are</em>, which is exactly how you'd read it.</p></div>
+
+      <h3>Inside quotes: escapes</h3>
+      <p>Some characters are awkward to type directly. Use a backslash escape:</p>
+      <div class="table-wrap">
+        <table class="ref">
+          <tr><th>You write</th><th>You get</th></tr>
+          <tr><td><code>\n</code></td><td>a new line</td></tr>
+          <tr><td><code>\t</code></td><td>a tab (big spaces)</td></tr>
+          <tr><td><code>\"</code></td><td>a quote character inside the text</td></tr>
+          <tr><td><code>\\</code></td><td>a single backslash</td></tr>
+        </table>
+      </div>
+
+      <h3>The text toolbox</h3>
+      <p>Four tools come with the language (each is explained in Chapter 12):</p>
+
+      <div class="codeblock">
+        <div class="cb-head">
+          <span class="cb-title">uppercase · lowercase · trim</span>
+          <span class="cb-actions">
+            <button class="cb-btn copy">Copy</button>
+            <button class="cb-btn run">▶ Run</button>
+          </span>
+        </div>
+        <pre data-lang="plainly">say uppercase("quiet")
+say lowercase("LOUD")
+say trim("   padded   ")</pre>
+        <div class="run-panel"><div class="rp-head">Output</div><pre></pre></div>
+      </div>
+
+      <div class="codeblock">
+        <div class="cb-head">
+          <span class="cb-title">split a sentence into a list, join a list into a sentence</span>
+          <span class="cb-actions">
+            <button class="cb-btn copy">Copy</button>
+            <button class="cb-btn run">▶ Run</button>
+          </span>
+        </div>
+        <pre data-lang="plainly">set csv = "coffee,tea,cocoa"
+set drinks = split(csv, ",")
+
+say drinks
+say join(drinks, " + ")</pre>
+        <div class="run-panel"><div class="rp-head">Output</div><pre></pre></div>
+      </div>
+
+      <div class="codeblock">
+        <div class="cb-head">
+          <span class="cb-title">replace · contains</span>
+          <span class="cb-actions">
+            <button class="cb-btn copy">Copy</button>
+            <button class="cb-btn run">▶ Run</button>
+          </span>
+        </div>
+        <pre data-lang="plainly">say replace("i like pie", "pie", "cake")
+say contains("hello", "ell")</pre>
+        <div class="run-panel"><div class="rp-head">Output</div><pre></pre></div>
+      </div>
+
+      <div class="diagram">
+        <div class="d-title">split — one text becomes a list of pieces</div>
+        <div class="flow">
+          <div class="node">"coffee,tea,cocoa"</div><div class="arrow">— split by "," →</div>
+          <div class="node">["coffee", "tea", "cocoa"]</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ======================================================
+         CHAPTER 7 — NUMBERS
+    ======================================================= -->
+    <section class="chapter" id="ch-07">
+      <h2><span class="chnum">07</span> Numbers &amp; math</h2>
+      <p class="subtitle">Arithmetic, and who calculates first.</p>
+
+      <p>Plainly does the math you expect — but the <strong>order</strong> matters,
+      and the order is not left-to-right. Multiplication happens before addition,
+      exactly like in school:</p>
+
+      <div class="codeblock">
+        <div class="cb-head">
+          <span class="cb-title">Order matters</span>
+          <span class="cb-actions">
+            <button class="cb-btn copy">Copy</button>
+            <button class="cb-btn run">▶ Run</button>
+          </span>
+        </div>
+        <pre data-lang="plainly">say 2 + 3 * 4
+say (2 + 3) * 4</pre>
+        <div class="run-panel"><div class="rp-head">Output</div><pre></pre></div>
+      </div>
+
+      <div class="diagram">
+        <div class="d-title">Who evaluates first? (the precedence ladder)</div>
+        <div class="ladder">
+          <div class="rung"><div class="bar" style="--w:1; width:180px;"></div><div class="lbl">( )</div><div class="note">parentheses — always first</div></div>
+          <div class="rung"><div class="bar" style="--w:0.85; width:150px;"></div><div class="lbl">not, -</div><div class="note">unary</div></div>
+          <div class="rung"><div class="bar" style="--w:0.7; width:125px;"></div><div class="lbl">*  /  %</div><div class="note">multiplicative</div></div>
+          <div class="rung"><div class="bar" style="--w:0.55; width:100px;"></div><div class="lbl">+  -</div><div class="note">additive</div></div>
+          <div class="rung"><div class="bar" style="--w:0.4; width:75px;"></div><div class="lbl">&gt; &lt; &gt;= &lt;= == !=</div><div class="note">comparisons</div></div>
+          <div class="rung"><div class="bar" style="--w:0.25; width:50px;"></div><div class="lbl">not</div><div class="note">logical</div></div>
+          <div class="rung"><div class="bar" style="--w:0.15; width:36px;"></div><div class="lbl">and</div><div class="note">logical</div></div>
+          <div class="rung"><div class="bar" style="--w:0.08; width:24px;"></div><div class="lbl">or</div><div class="note">last of all</div></div>
+        </div>
+      </div>
+
+      <p><strong>When unsure, use parentheses.</strong> <code>(2 + 3) * 4</code> costs nothing
+      and removes all doubt.</p>
+
+      <h3>The number toolbox</h3>
+
+      <div class="codeblock">
+        <div class="cb-head">
+          <span class="cb-title">abs · round · floor · ceil · min · max</span>
+          <span class="cb-actions">
+            <button class="cb-btn copy">Copy</button>
+            <button class="cb-btn run">▶ Run</button>
+          </span>
+        </div>
+        <pre data-lang="plainly">say abs(-7)
+say round(2.6)
+say floor(2.9)
+say ceil(2.1)
+say min(3, 9)
+say max(3, 9)</pre>
+        <div class="run-panel"><div class="rp-head">Output</div><pre></pre></div>
+      </div>
+
+      <div class="grid cols-3">
+        <div class="card"><span class="c-icon">↔️</span><h3>abs</h3><p>distance from zero. <code>abs(-7)</code> is 7.</p></div>
+        <div class="card"><span class="c-icon">🎚️</span><h3>round / floor / ceil</h3><p>nearest, always-down, always-up. <code>round(2.5)</code> is 3, <code>floor(2.9)</code> is 2, <code>ceil(2.1)</code> is 3.</p></div>
+        <div class="card"><span class="c-icon">🏁</span><h3>min / max</h3><p>the smaller / bigger of two numbers.</p></div>
+      </div>
+
+      <h3>Comparisons answer true/false</h3>
+      <div class="codeblock">
+        <div class="cb-head">
+          <span class="cb-title">Questions about numbers</span>
+          <span class="cb-actions">
+            <button class="cb-btn copy">Copy</button>
+            <button class="cb-btn run">▶ Run</button>
+          </span>
+        </div>
+        <pre data-lang="plainly">say 5 > 3
+say 5 <= 3
+say 5 == 5
+say 5 != 3</pre>
+        <div class="run-panel"><div class="rp-head">Output</div><pre></pre></div>
+      </div>
+
+      <div class="callout warn"><span class="co-icon">⚠️</span><p><code>==</code> asks "are these equal?" (two equals).
+      A single <code>=</code> is used by <code>set</code> to store. Mixing them up is the classic beginner mistake — the analyzer
+      will catch it with a friendly error.</p></div>
+    </section>
+
+    <!-- ======================================================
+         CHAPTER 8 — DECISIONS
+    ======================================================= -->
+    <section class="chapter" id="ch-08">
+      <h2><span class="chnum">08</span> Making decisions</h2>
+      <p class="subtitle">if / otherwise — the fork in the road.</p>
+
+      <p>A program that always does the same thing is just a document.
+      <code>if</code> lets it choose:</p>
+
+      <div class="codeblock">
+        <div class="cb-head">
+          <span class="cb-title">A fork in the road</span>
+          <span class="cb-actions">
+            <button class="cb-btn copy">Copy</button>
+            <button class="cb-btn run">▶ Run</button>
+          </span>
+        </div>
+        <pre data-lang="plainly">set age = 20
+
+if age >= 18:
+  say "Adult"
+otherwise:
+  say "Minor"</pre>
+        <div class="run-panel"><div class="rp-head">Output</div><pre></pre></div>
+      </div>
+
+      <div class="diagram">
+        <div class="d-title">How if works</div>
+        <div class="flow">
+          <div class="node">age >= 18 ?</div><div class="arrow">→</div>
+          <div class="node">true → say "Adult"</div>
+        </div>
+        <div class="flow" style="margin-top:10px;">
+          <div class="node">age >= 18 ?</div><div class="arrow">→ false →</div>
+          <div class="node">otherwise → say "Minor"</div>
+        </div>
+      </div>
+
+      <p>Notice the <strong>shape</strong>: the first line ends with a colon
+      <code>:</code>, and the lines inside are <strong>indented</strong> (moved right).
+      The indentation is how Plainly knows which lines belong to the <code>if</code>.
+      Use 2 spaces, consistently.</p>
+
+      <h3>Many roads: otherwise if</h3>
+      <p>For more than two outcomes, chain conditions:</p>
+
+      <div class="codeblock">
+        <div class="cb-head">
+          <span class="cb-title">Grading chain</span>
+          <span class="cb-actions">
+            <button class="cb-btn copy">Copy</button>
+            <button class="cb-btn run">▶ Run</button>
+          </span>
+        </div>
+        <pre data-lang="plainly">set score = 85
+
+if score >= 90:
+  say "Grade: A"
+otherwise if score >= 80:
+  say "Grade: B"
+otherwise if score >= 70:
+  say "Grade: C"
+otherwise:
+  say "Grade: F"</pre>
+        <div class="run-panel"><div class="rp-head">Output</div><pre></pre></div>
+      </div>
+
+      <div class="callout info"><span class="co-icon">ℹ️</span><p>The computer checks the conditions
+      <strong>top to bottom and stops at the first true one</strong>. Score is 85, so the first check (≥90) fails, the
+      second (≥80) succeeds → "Grade: B". The rest are never even looked at.</p></div>
+
+      <h3>Combining questions: and · or · not</h3>
+
+      <div class="codeblock">
+        <div class="cb-head">
+          <span class="cb-title">and — both must be true</span>
+          <span class="cb-actions">
+            <button class="cb-btn copy">Copy</button>
+            <button class="cb-btn run">▶ Run</button>
+          </span>
+        </div>
+        <pre data-lang="plainly">set age = 25
+set hasTicket = true
+
+if age >= 18 and hasTicket:
+  say "Enjoy the movie!"
+
+set day = "Sunday"
+if day == "Saturday" or day == "Sunday":
+  say "It's the weekend!"</pre>
+        <div class="run-panel"><div class="rp-head">Output</div><pre></pre></div>
+      </div>
+
+      <div class="grid cols-3">
+        <div class="card tint-green"><span class="c-icon">∧</span><h3>and</h3><p>true only when <strong>both</strong> sides are true.</p></div>
+        <div class="card tint-blue"><span class="c-icon">∨</span><h3>or</h3><p>true when <strong>at least one</strong> side is true.</p></div>
+        <div class="card tint-purple"><span class="c-icon">¬</span><h3>not</h3><p>flips true ↔ false.</p></div>
+      </div>
+
+      <div class="codeblock">
+        <div class="cb-head">
+          <span class="cb-title">not flips the answer</span>
+          <span class="cb-actions">
+            <button class="cb-btn copy">Copy</button>
+            <button class="cb-btn run">▶ Run</button>
+          </span>
+        </div>
+        <pre data-lang="plainly">set isRaining = false
+
+if not isRaining:
+  say "No umbrella needed"</pre>
+        <div class="run-panel"><div class="rp-head">Output</div><pre></pre></div>
+      </div>
+    </section>
+
+    <!-- ======================================================
+         CHAPTER 9 — LOOPS
+    ======================================================= -->
+    <section class="chapter" id="ch-09">
+      <h2><span class="chnum">09</span> Loops</h2>
+      <p class="subtitle">Do it again. And again. Without copy-paste.</p>
+
+      <p><code>for each</code> walks through a list (or text) and runs a block once
+      per item. The variable after <code>each</code> holds the current item:</p>
+
+      <div class="codeblock">
+        <div class="cb-head">
+          <span class="cb-title">for each — one run per item</span>
+          <span class="cb-actions">
+            <button class="cb-btn copy">Copy</button>
+            <button class="cb-btn run">▶ Run</button>
+          </span>
+        </div>
+        <pre data-lang="plainly">set names = ["Aisha", "Ben", "Carlos"]
+
+for each name in names:
+  say "Hello " + name</pre>
+        <div class="run-panel"><div class="rp-head">Output</div><pre></pre></div>
+      </div>
+
+      <div class="diagram">
+        <div class="d-title">What the loop does, pass by pass</div>
+        <div class="memory">
+          <div class="cell str"><div class="k">pass 1</div><div class="v">"Aisha"</div></div>
+          <div class="cell str"><div class="k">pass 2</div><div class="v">"Ben"</div></div>
+          <div class="cell str"><div class="k">pass 3</div><div class="v">"Carlos"</div></div>
+        </div>
+      </div>
+
+      <h3>repeat — a fixed number of times</h3>
+      <div class="codeblock">
+        <div class="cb-head">
+          <span class="cb-title">repeat</span>
+          <span class="cb-actions">
+            <button class="cb-btn copy">Copy</button>
+            <button class="cb-btn run">▶ Run</button>
+          </span>
+        </div>
+        <pre data-lang="plainly">repeat 3 times:
+  say "Loop!"</pre>
+        <div class="run-panel"><div class="rp-head">Output</div><pre></pre></div>
+      </div>
+
+      <p>Text is a sequence too — looping over it gives one character per pass:</p>
+
+      <div class="codeblock">
+        <div class="cb-head">
+          <span class="cb-title">Looping over text</span>
+          <span class="cb-actions">
+            <button class="cb-btn copy">Copy</button>
+            <button class="cb-btn run">▶ Run</button>
+          </span>
+        </div>
+        <pre data-lang="plainly">for each letter in "abc":
+  say letter</pre>
+        <div class="run-panel"><div class="rp-head">Output</div><pre></pre></div>
+      </div>
+
+      <h3>The most useful loop pattern: the accumulator</h3>
+      <p>Start a total at 0, then grow it every pass. This one idea powers carts,
+      scores, averages — half of all beginner programs:</p>
+
+      <div class="codeblock">
+        <div class="cb-head">
+          <span class="cb-title">The accumulator pattern</span>
+          <span class="cb-actions">
+            <button class="cb-btn copy">Copy</button>
+            <button class="cb-btn run">▶ Run</button>
+          </span>
+        </div>
+        <pre data-lang="plainly">set prices = [5, 3, 12]
+
+set total = 0
+for each price in prices:
+  set total = total + price
+
+say total</pre>
+        <div class="run-panel"><div class="rp-head">Output</div><pre></pre></div>
+      </div>
+
+      <div class="diagram">
+        <div class="d-title">total grows with every pass</div>
+        <div class="memory">
+          <div class="cell num"><div class="k">start</div><div class="v">0</div></div>
+          <div class="cell num"><div class="k">+5</div><div class="v">5</div></div>
+          <div class="cell num"><div class="k">+3</div><div class="v">8</div></div>
+          <div class="cell num"><div class="k">+12</div><div class="v">20</div></div>
+        </div>
+      </div>
+
+      <h3>Loops + decisions = filtering</h3>
+      <p>Combine <code>for each</code> with <code>if</code> to keep only what you want.
+      Here's the famous <code>%</code> at work: <code>n % 2 == 0</code> means "n divides
+      evenly by 2", i.e. n is even:</p>
+
+      <div class="codeblock">
+        <div class="cb-head">
+          <span class="cb-title">Keep only the evens</span>
+          <span class="cb-actions">
+            <button class="cb-btn copy">Copy</button>
+            <button class="cb-btn run">▶ Run</button>
+          </span>
+        </div>
+        <pre data-lang="plainly">set numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+set evens = []
+
+for each n in numbers:
+  if n % 2 == 0:
+    set evens = evens + [n]
+
+say evens</pre>
+        <div class="run-panel"><div class="rp-head">Output</div><pre></pre></div>
+      </div>
+
+      <div class="callout tip"><span class="co-icon">💡</span><p><code>evens + [n]</code> makes a
+      <strong>new list</strong> with <code>n</code> at the end. <code>[n]</code> is a one-item list — you can't add a
+      single item to a list with <code>+</code>, only list-to-list. (For in-place adding there's <code>push</code>, Chapter 10.)</p></div>
+    </section>
+
+    <!-- ======================================================
+         CHAPTER 10 — LISTS
+    ======================================================= -->
+    <section class="chapter" id="ch-10">
+      <h2><span class="chnum">10</span> Lists</h2>
+      <p class="subtitle">Many values, one box.</p>
+
+      <p>A list holds several values in order, written in square brackets
+      separated by commas:</p>
+
+      <div class="codeblock">
+        <div class="cb-head">
+          <span class="cb-title">Lists, in order</span>
+          <span class="cb-actions">
+            <button class="cb-btn copy">Copy</button>
+            <button class="cb-btn run">▶ Run</button>
+          </span>
+        </div>
+        <pre data-lang="plainly">set colors = ["red", "green", "blue"]
+
+say colors
+say colors[0]
+say colors[2]
+say length(colors)</pre>
+        <div class="run-panel"><div class="rp-head">Output</div><pre></pre></div>
+      </div>
+
+      <div class="diagram">
+        <div class="d-title">Positions start at 0 — always</div>
+        <div class="memory">
+          <div class="cell str"><div class="k">[0]</div><div class="v">"red"</div></div>
+          <div class="cell str"><div class="k">[1]</div><div class="v">"green"</div></div>
+          <div class="cell str"><div class="k">[2]</div><div class="v">"blue"</div></div>
+        </div>
+      </div>
+
+      <div class="callout warn"><span class="co-icon">⚠️</span><p>The first item is
+      <code>colors[0]</code>, not <code>colors[1]</code>. The last item of 3 is
+      <code>colors[2]</code> — one less than the length. This "off by one" trips everyone;
+      the error message when you go too far tells you exactly how many there are.</p></div>
+
+      <h3>Growing lists: push and +</h3>
+
+      <div class="codeblock">
+        <div class="cb-head">
+          <span class="cb-title">push adds inside, + makes a new list</span>
+          <span class="cb-actions">
+            <button class="cb-btn copy">Copy</button>
+            <button class="cb-btn run">▶ Run</button>
+          </span>
+        </div>
+        <pre data-lang="plainly">set cart = []
+
+push(cart, "apples")
+push(cart, "bread")
+
+say cart
+
+set more = ["milk"]
+say cart + more</pre>
+        <div class="run-panel"><div class="rp-head">Output</div><pre></pre></div>
+      </div>
+
+      <div class="grid cols-2">
+        <div class="card"><span class="c-icon">📥</span><h3>push(list, item)</h3><p>adds the item <strong>into</strong> the existing list. The list itself changes.</p></div>
+        <div class="card"><span class="c-icon">➕</span><h3>listA + listB</h3><p>builds a <strong>new</strong> list containing both. Originals untouched.</p></div>
+      </div>
+
+      <h3>Searching lists</h3>
+      <div class="codeblock">
+        <div class="cb-head">
+          <span class="cb-title">contains · index</span>
+          <span class="cb-actions">
+            <button class="cb-btn copy">Copy</button>
+            <button class="cb-btn run">▶ Run</button>
+          </span>
+        </div>
+        <pre data-lang="plainly">set fruits = ["apple", "banana", "cherry"]
+
+say contains(fruits, "banana")
+say fruits[1]</pre>
+        <div class="run-panel"><div class="rp-head">Output</div><pre></pre></div>
+      </div>
+
+      <h3>Lists inside lists</h3>
+      <p>A list can contain other lists — useful for grids and tables. Two
+      indexes in a row drill down:</p>
+
+      <div class="codeblock">
+        <div class="cb-head">
+          <span class="cb-title">A tiny grid</span>
+          <span class="cb-actions">
+            <button class="cb-btn copy">Copy</button>
+            <button class="cb-btn run">▶ Run</button>
+          </span>
+        </div>
+        <pre data-lang="plainly">set grid = [[1, 2], [3, 4]]
+
+say grid
+say grid[0]
+say grid[1][0]</pre>
+        <div class="run-panel"><div class="rp-head">Output</div><pre></pre></div>
+      </div>
+    </section>
+
+    <!-- ======================================================
+         CHAPTER 11 — FUNCTIONS
+    ======================================================= -->
+    <section class="chapter" id="ch-11">
+      <h2><span class="chnum">11</span> Functions</h2>
+      <p class="subtitle">Teach the computer a new skill.</p>
+
+      <p>A function is a <strong>named recipe</strong>: it takes inputs, does work,
+      and hands back a result. Define it once, use it forever:</p>
+
+      <div class="codeblock">
+        <div class="cb-head">
+          <span class="cb-title">Define once, call many times</span>
+          <span class="cb-actions">
+            <button class="cb-btn copy">Copy</button>
+            <button class="cb-btn run">▶ Run</button>
+          </span>
+        </div>
+        <pre data-lang="plainly">function add(a, b):
+  return a + b
+
+say add(2, 3)
+say add(10, 20)</pre>
+        <div class="run-panel"><div class="rp-head">Output</div><pre></pre></div>
+      </div>
+
+      <div class="diagram">
+        <div class="d-title">Anatomy of a function</div>
+        <div class="flow">
+          <div class="node">function</div>
+          <div class="node">add <span class="muted">(its name)</span></div>
+          <div class="node">(a, b) <span class="muted">(inputs)</span></div>
+          <div class="node">return a + b <span class="muted">(the answer)</span></div>
+        </div>
+      </div>
+
+      <p><code>a</code> and <code>b</code> are <strong>parameters</strong> — empty boxes that get filled
+      when the function is called: <code>add(2, 3)</code> fills a with 2 and b with 3.
+      <code>return</code> hands the result back to whoever called.</p>
+
+      <h3>Functions calling functions</h3>
+      <p>Small skills combine into big ones:</p>
+
+      <div class="codeblock">
+        <div class="cb-head">
+          <span class="cb-title">Building a greeting from parts</span>
+          <span class="cb-actions">
+            <button class="cb-btn copy">Copy</button>
+            <button class="cb-btn run">▶ Run</button>
+          </span>
+        </div>
+        <pre data-lang="plainly">function greet(name):
+  return "Hello, " + name + "!"
+
+say greet("Plainly")</pre>
+        <div class="run-panel"><div class="rp-head">Output</div><pre></pre></div>
+      </div>
+
+      <h3>Recursion — a function that calls itself</h3>
+      <p>This looks like magic the first time. It isn't: each call just gets a
+      <em>smaller</em> problem, and the simplest case (<code>n <= 1</code>) stops the
+      chain. Factorial: 5! = 5×4×3×2×1 = 120.</p>
+
+      <div class="codeblock">
+        <div class="cb-head">
+          <span class="cb-title">factorial — the self-calling skill</span>
+          <span class="cb-actions">
+            <button class="cb-btn copy">Copy</button>
+            <button class="cb-btn run">▶ Run</button>
+          </span>
+        </div>
+        <pre data-lang="plainly">function factorial(n):
+  if n <= 1:
+    return 1
+  return n * factorial(n - 1)
+
+say factorial(5)</pre>
+        <div class="run-panel"><div class="rp-head">Output</div><pre></pre></div>
+      </div>
+
+      <div class="diagram">
+        <div class="d-title">How the calls stack up (then unwind)</div>
+        <div class="flow">
+          <div class="node">factorial(5)<br><span class="muted">5 × ?</span></div>
+          <div class="node">factorial(4)<br><span class="muted">4 × ?</span></div>
+          <div class="node">factorial(3)<br><span class="muted">3 × ?</span></div>
+          <div class="node">factorial(2)<br><span class="muted">2 × ?</span></div>
+          <div class="node">factorial(1)<br><span class="muted">returns 1</span></div>
+        </div>
+        <div class="caption">answers flow back up: 1 → 2 → 6 → 24 → 120</div>
+      </div>
+
+      <h3>The classic combo: function + loop</h3>
+      <div class="codeblock">
+        <div class="cb-head">
+          <span class="cb-title">Transform every item</span>
+          <span class="cb-actions">
+            <button class="cb-btn copy">Copy</button>
+            <button class="cb-btn run">▶ Run</button>
+          </span>
+        </div>
+        <pre data-lang="plainly">function double(n):
+  return n * 2
+
+set numbers = [1, 2, 3, 4]
+set doubled = []
+
+for each n in numbers:
+  set doubled = doubled + [double(n)]
+
+say doubled</pre>
+        <div class="run-panel"><div class="rp-head">Output</div><pre></pre></div>
+      </div>
+
+      <div class="callout tip"><span class="co-icon">💡</span><p><strong>When to write a function?</strong>
+      When you catch yourself copying code. Write it once, name it well, and call it everywhere. If a function name needs
+      "and" in it ("read-and-validate-and-save"), split it into smaller functions.</p></div>
+    </section>
+
+    <!-- ======================================================
+         CHAPTER 12 — BUILTINS
+    ======================================================= -->
+    <section class="chapter" id="ch-12">
+      <h2><span class="chnum">12</span> The built-in toolbox</h2>
+      <p class="subtitle">All 18 tools. This is the entire standard library.</p>
+
+      <p>These come with every Plainly program — no installs, no imports.
+      Calling them is the same shape every time: <code>name(values)</code>.</p>
+
+      <div class="table-wrap">
+        <table class="ref">
+          <tr><th>Tool</th><th>What it does</th><th>Example → result</th></tr>
+          <tr><td colspan="3" style="background:var(--bg-soft);font-weight:800;">Text</td></tr>
+          <tr><td><code>uppercase(s)</code></td><td>ALL CAPS</td><td><code>uppercase("hi")</code> → <code>HI</code></td></tr>
+          <tr><td><code>lowercase(s)</code></td><td>all lowercase</td><td><code>lowercase("HI")</code> → <code>hi</code></td></tr>
+          <tr><td><code>trim(s)</code></td><td>cuts spaces off both ends</td><td><code>trim("  a  ")</code> → <code>a</code></td></tr>
+          <tr><td><code>split(s, sep)</code></td><td>text → list of pieces</td><td><code>split("a,b", ",")</code> → <code>["a","b"]</code></td></tr>
+          <tr><td><code>join(list, glue)</code></td><td>list → text</td><td><code>join(["a","b"], "-")</code> → <code>a-b</code></td></tr>
+          <tr><td><code>contains(s, part)</code></td><td>is part in there? (works on lists too)</td><td><code>contains("hi", "i")</code> → <code>true</code></td></tr>
+          <tr><td><code>replace(s, from, to)</code></td><td>swap every <code>from</code> for <code>to</code></td><td><code>replace("aa","a","b")</code> → <code>bb</code></td></tr>
+          <tr><td colspan="3" style="background:var(--bg-soft);font-weight:800;">Numbers</td></tr>
+          <tr><td><code>abs(n)</code></td><td>distance from zero</td><td><code>abs(-3)</code> → <code>3</code></td></tr>
+          <tr><td><code>round(n)</code></td><td>nearest whole number</td><td><code>round(2.6)</code> → <code>3</code></td></tr>
+          <tr><td><code>floor(n)</code></td><td>always down</td><td><code>floor(2.9)</code> → <code>2</code></td></tr>
+          <tr><td><code>ceil(n)</code></td><td>always up</td><td><code>ceil(2.1)</code> → <code>3</code></td></tr>
+          <tr><td><code>min(a, b)</code></td><td>the smaller</td><td><code>min(2, 9)</code> → <code>2</code></td></tr>
+          <tr><td><code>max(a, b)</code></td><td>the bigger</td><td><code>max(2, 9)</code> → <code>9</code></td></tr>
+          <tr><td colspan="3" style="background:var(--bg-soft);font-weight:800;">Converting</td></tr>
+          <tr><td><code>number(x)</code></td><td>text → number</td><td><code>number("42")</code> → <code>42</code></td></tr>
+          <tr><td><code>text(x)</code></td><td>any value → text</td><td><code>text(99)</code> → <code>"99"</code></td></tr>
+          <tr><td colspan="3" style="background:var(--bg-soft);font-weight:800;">Lists</td></tr>
+          <tr><td><code>push(list, item)</code></td><td>add item into the list</td><td><code>push(xs, 1)</code></td></tr>
+          <tr><td><code>list(...)</code></td><td>make a list from values</td><td><code>list(1, 2)</code> → <code>[1, 2]</code></td></tr>
+          <tr><td><code>length(x)</code></td><td>count items or characters</td><td><code>length("abc")</code> → <code>3</code></td></tr>
+        </table>
+      </div>
+
+      <h3>Converting between kinds</h3>
+      <p>Text and numbers don't mix in math — convert first:</p>
+
+      <div class="codeblock">
+        <div class="cb-head">
+          <span class="cb-title">number() and text()</span>
+          <span class="cb-actions">
+            <button class="cb-btn copy">Copy</button>
+            <button class="cb-btn run">▶ Run</button>
+          </span>
+        </div>
+        <pre data-lang="plainly">set age = number("23")
+say age + 1
+
+set label = text(99)
+say "Room " + label</pre>
+        <div class="run-panel"><div class="rp-head">Output</div><pre></pre></div>
+      </div>
+
+      <div class="codeblock">
+        <div class="cb-head">
+          <span class="cb-title">list() and push()</span>
+          <span class="cb-actions">
+            <button class="cb-btn copy">Copy</button>
+            <button class="cb-btn run">▶ Run</button>
+          </span>
+        </div>
+        <pre data-lang="plainly">say list(1, 2, 3)
+set xs = []
+push(xs, 10)
+push(xs, 20)
+say xs</pre>
+        <div class="run-panel"><div class="rp-head">Output</div><pre></pre></div>
+      </div>
+
+      <div class="callout tip"><span class="co-icon">🎓</span><p>On your computer, ask the CLI
+      to explain any tool: <code>plainly explain split</code> prints its shape and an example.</p></div>
+    </section>
+
+    <!-- ======================================================
+         CHAPTER 13 — COMMENTS & STYLE
+    ======================================================= -->
+    <section class="chapter" id="ch-13">
+      <h2><span class="chnum">13</span> Comments &amp; good style</h2>
+      <p class="subtitle">Writing code humans can read — including future-you.</p>
+
+      <p>Anything after <code>#</code> on a line is a <strong>comment</strong>: the computer
+      skips it completely. Comments are for people.</p>
+
+      <div class="codeblock">
+        <div class="cb-head">
+          <span class="cb-title">Three kinds of comment</span>
+          <span class="cb-actions">
+            <button class="cb-btn copy">Copy</button>
+            <button class="cb-btn run">▶ Run</button>
+          </span>
+        </div>
+        <pre data-lang="plainly"># 1. A heading at the top of a section
+
+set rate = 0.2  # 2. A note on the same line as code
+
+# 3. Explaining WHY, not what:
+# we subtract the discount BEFORE tax, per store policy
+set price = 100 - 20
+say price * (1 + rate)</pre>
+        <div class="run-panel"><div class="rp-head">Output</div><pre></pre></div>
+      </div>
+
+      <div class="callout tip"><span class="co-icon">💡</span><p>The best comment explains
+      <strong>why</strong>. <code># add 1 to x</code> repeats what the code already says. <code># x is 1-based because
+      the API starts at 1</code> saves someone an hour.</p></div>
+
+      <h3>Five habits of clean Plainly</h3>
+      <div class="grid cols-2">
+        <div class="card"><span class="c-icon">1️⃣</span><h3>Indent 2 spaces, always</h3><p>Blocks live or die by indentation. Consistent 2 spaces, never tabs mixed with spaces.</p></div>
+        <div class="card"><span class="c-icon">2️⃣</span><h3>Name things honestly</h3><p><code>total_price</code> beats <code>tp</code>. Future-you is a stranger who inherits your names.</p></div>
+        <div class="card"><span class="c-icon">3️⃣</span><h3>One idea per line</h3><p>Two short lines beat one clever line. You read code 10× more than you write it.</p></div>
+        <div class="card"><span class="c-icon">4️⃣</span><h3>Functions for repeats</h3><p>Copied code is a bug waiting to happen in one copy but not the others.</p></div>
+        <div class="card"><span class="c-icon">5️⃣</span><h3>Run as you go</h3><p>Write 3 lines, run, check. Small steps catch small mistakes while they're small.</p></div>
+        <div class="card"><span class="c-icon">6️⃣</span><h3>Let plainly check be your editor</h3><p><code>plainly check file.pl</code> reports every problem at once, with hints — run it often.</p></div>
+      </div>
+    </section>
+
+    <!-- ======================================================
+         CHAPTER 14 — ERRORS
+    ======================================================= -->
+    <section class="chapter" id="ch-14">
+      <h2><span class="chnum">14</span> When things go wrong</h2>
+      <p class="subtitle">Every error code, in plain words. Errors are teachers.</p>
+
+      <p>An error message is the computer asking for help. Plainly's messages
+      show <strong>what</strong> happened, <strong>where</strong> (with a pointing finger), and a
+      <strong>hint</strong> for fixing it:</p>
+
+      <div class="compare">
+        <div class="panel bad">
+          <div class="panel-head">Typical language</div>
+          <pre>TypeError: Cannot read properties
+of undefined (reading 'email')</pre>
+        </div>
+        <div class="panel good">
+          <div class="panel-head">Plainly</div>
+          <pre>PL-002 at line 2, column 5: You tried to
+use 'agge', but it doesn't exist yet.
+
+    say agge
+        ^^^^
+Hint: Did you mean 'age'?</pre>
+        </div>
+      </div>
+
+      <h3>The complete codebook</h3>
+      <div class="table-wrap">
+        <table class="ref">
+          <tr><th>Code</th><th>Plain meaning</th><th>What to do</th></tr>
+          <tr><td><code>PL-001</code></td><td>I don't know this character</td><td>remove it, or check for a typo</td></tr>
+          <tr><td><code>PL-002</code></td><td>this name doesn't exist (yet)</td><td>spell it right, or <code>set</code> it first</td></tr>
+          <tr><td><code>PL-003</code></td><td>a text is missing its closing <code>"</code></td><td>add the quote</td></tr>
+          <tr><td><code>PL-004</code></td><td>indentation doesn't line up</td><td>2 spaces per level, aligned exactly</td></tr>
+          <tr><td><code>PL-005</code></td><td>this text surprised me</td><td>read the line — something's missing; blocks need <code>:</code></td></tr>
+          <tr><td><code>PL-006</code></td><td>unknown escape like <code>\q</code></td><td>valid: <code>\n \t \" \\</code></td></tr>
+          <tr><td><code>PL-007</code></td><td>this block is empty</td><td>add an indented line after the <code>:</code></td></tr>
+          <tr><td><code>PL-008</code></td><td>you divided by zero</td><td>check the right side of <code>/</code> first</td></tr>
+          <tr><td><code>PL-009</code></td><td>these value kinds don't work together</td><td>numbers with numbers, text with text; convert with <code>number()</code>/<code>text()</code></td></tr>
+          <tr><td><code>PL-010</code></td><td>you called something that isn't a function</td><td>only functions take <code>( )</code></td></tr>
+          <tr><td><code>PL-011</code></td><td>wrong number of values passed</td><td>count them; <code>plainly explain &lt;name&gt;</code> shows the shape</td></tr>
+          <tr><td><code>PL-012</code></td><td>position past the end</td><td>positions run 0 to length-1</td></tr>
+          <tr><td><code>PL-013</code></td><td><code>return</code> outside a function</td><td>move it inside a function</td></tr>
+          <tr><td><code>PL-014</code></td><td>two parameters share a name</td><td>give each a unique name</td></tr>
+          <tr><td><code>PL-015</code></td><td>you made a value and never used it</td><td>use it or remove it (a warning, not fatal)</td></tr>
+          <tr><td><code>PL-016</code></td><td>this operation doesn't work on these values</td><td>e.g. subtracting lists — pick a valid operation</td></tr>
+          <tr><td><code>PL-017</code></td><td>you used a reserved word as a name</td><td>pick a different name</td></tr>
+          <tr><td><code>PL-018</code></td><td>this statement is in the wrong place</td><td><code>app</code> first; <code>database</code>, <code>page</code>, <code>state</code>, <code>form</code> in their homes</td></tr>
+          <tr><td><code>PL-019</code></td><td>no database with this name</td><td>declare it with a <code>database</code> block</td></tr>
+          <tr><td><code>PL-020</code></td><td>this name is already taken</td><td>one app, unique databases, unique names</td></tr>
+          <tr><td><code>PL-021</code></td><td>form field not in the database</td><td>add it to the <code>database</code> block, or fix the spelling</td></tr>
+          <tr><td><code>PL-022</code></td><td>form points at a missing database</td><td>declare the database before the form</td></tr>
+        </table>
+      </div>
+
+      <h3>Try one yourself</h3>
+      <p>Run this — it breaks on purpose. Notice the suggestion:</p>
+
+      <div class="codeblock">
+        <div class="cb-head">
+          <span class="cb-title">A deliberate typo (press Run!)</span>
+          <span class="cb-actions">
+            <button class="cb-btn copy">Copy</button>
+            <button class="cb-btn run">▶ Run</button>
+          </span>
+        </div>
+        <pre data-lang="plainly">set greeting = "hi"
+say greting</pre>
+        <div class="run-panel"><div class="rp-head">Output</div><pre></pre></div>
+      </div>
+
+      <div class="callout tip"><span class="co-icon">🎓</span><p><code>plainly explain PL-002</code> on your
+      computer prints a full guide for any code. Every code in the table above works there.</p></div>
+    </section>
+
+    <!-- ======================================================
+         CHAPTER 15 — INSIDE THE COMPILER
+    ======================================================= -->
+    <section class="chapter" id="ch-15">
+      <h2><span class="chnum">15</span> Inside the compiler</h2>
+      <p class="subtitle">How Plainly understands your program — and proves it.</p>
+
+      <p>Chapter 2 sketched the pipeline. Now let's actually watch it work, because
+      the CLI lets you see every stage:</p>
+
+      <div class="diagram">
+        <div class="d-title">Source to meaning to software</div>
+        <div class="flow">
+          <div class="node">say 2 + 3 * 4</div><div class="arrow">→</div>
+          <div class="node">tokens</div><div class="arrow">→</div>
+          <div class="node">AST 🌳</div><div class="arrow">→</div>
+          <div class="node">PIR 🧠</div><div class="arrow">→</div>
+          <div class="node">14</div>
+        </div>
+      </div>
+
+      <h3>PIR — the program's meaning, written down</h3>
+      <p>PIR (Plainly Intermediate Representation) rewrites your program as tiny
+      numbered steps. Every value gets a <code>%name</code>. Run this to see it:</p>
+
+      <div class="table-wrap">
+        <table class="ref">
+          <tr><th>You write</th><th>PIR shows</th></tr>
+          <tr><td><code>set price = 100</code></td><td><code>%0 = const 100</code> → <code>store price, %0</code></td></tr>
+          <tr><td><code>set quantity = 5</code></td><td><code>%1 = const 5</code> → <code>store quantity, %1</code></td></tr>
+          <tr><td><code>set total = price * quantity</code></td><td><code>%2 = load price</code> → <code>%3 = load quantity</code> → <code>%4 = mul %2, %3</code> → <code>store total, %4</code></td></tr>
+          <tr><td><code>say total</code></td><td><code>%5 = load total</code> → <code>print %5</code></td></tr>
+        </table>
+      </div>
+
+      <div class="codeblock">
+        <div class="cb-head">
+          <span class="cb-title">See PIR on your computer (not runnable in-browser)</span>
+          <span class="cb-actions">
+            <button class="cb-btn copy">Copy</button>
+          </span>
+        </div>
+        <pre data-lang="bash">plainly compile shop.pl --emit pir      # human-readable
+plainly compile shop.pl --emit json     # machine-readable
+plainly inspect shop.pl                 # full pipeline report</pre>
+      </div>
+
+      <h3>The optimizer: same meaning, less work</h3>
+      <p>Before running, PIR goes through passes that make it smaller without
+      changing what it does:</p>
+
+      <div class="grid cols-3">
+        <div class="card"><span class="c-icon">➗</span><h3>Constant folding</h3><p><code>%1 = const 10</code>, <code>%2 = const 20</code>, <code>%3 = add %1 %2</code> becomes <code>%3 = const 30</code>. Computed once at compile time, not every run.</p></div>
+        <div class="card"><span class="c-icon">📡</span><h3>Constant propagation</h3><p>If <code>x</code> is known to be 7, later <code>load x</code> becomes <code>const 7</code> — until anything could change it. Safety first.</p></div>
+        <div class="card"><span class="c-icon">🧹</span><h3>Dead code removal</h3><p>Values nobody ever reads are deleted. Prints, calls and stores always stay — they have effects.</p></div>
+      </div>
+
+      <div class="callout info"><span class="co-icon">ℹ️</span><p><strong>Parity tests</strong> prove the optimizer
+      is safe: the same program is run through PIR with and without optimization, and the outputs must match exactly.
+      Two independent engines (AST interpreter and PIR interpreter) must also always agree.</p></div>
+
+      <h3>Why this matters to you</h3>
+      <p>Because PIR describes <em>meaning</em>, not JavaScript — the same meaning
+      can be compiled to anything. That is the bridge to the next chapter: one
+      Plainly file becomes SQL, an API server, and a UI, all from the same PIR.</p>
+    </section>
+
+    <!-- ======================================================
+         CHAPTER 16 — BUILD A REAL APP
+    ======================================================= -->
+    <section class="chapter" id="ch-16">
+      <h2><span class="chnum">16</span> Build a real app</h2>
+      <p class="subtitle">One file in. A full-stack project out.</p>
+
+      <p>Everything so far ran in a console. Now the big promise: describe an app
+      — its data, its pages, its forms — and let <code>plainly build</code> generate
+      the rest.</p>
+
+      <h3>The whole app, in 16 lines</h3>
+
+      <div class="codeblock">
+        <div class="cb-head">
+          <span class="cb-title">shop.pl — a real store (declarative; run it with plainly build)</span>
+          <span class="cb-actions">
+            <button class="cb-btn copy">Copy</button>
+          </span>
+        </div>
+        <pre data-lang="plainly">app "Shop"
+
+database Product:
+    name: text
+    price: money
+    in_stock: boolean
+
+page "Products":
+    title "Our Products"
+    show Product
+    form "Add Product" from Product:
+        field name: text
+        field price: number
+        field in_stock: boolean
+
+page "About":
+    title "About This Shop"</pre>
+      </div>
+
+      <h3>Reading it slowly</h3>
+      <div class="grid cols-2">
+        <div class="card"><span class="c-icon">🏷️</span><h3>app "Shop"</h3><p>Names your application. Must be the first statement.</p></div>
+        <div class="card"><span class="c-icon">🗄️</span><h3>database Product</h3><p>Declares a kind of thing your app stores, with typed fields: <code>text</code>, <code>number</code>, <code>boolean</code>, <code>money</code>, <code>email</code>, <code>date</code>.</p></div>
+        <div class="card"><span class="c-icon">📄</span><h3>page "Products"</h3><p>Declares a screen. Pages hold <code>title</code>, <code>show</code>, <code>form</code>, <code>button</code>, <code>state</code>.</p></div>
+        <div class="card"><span class="c-icon">📋</span><h3>form "Add Product" from Product</h3><p>A form that fills the Product database. Each <code>field</code> line becomes a labeled input. The analyzer checks every field exists in the database (PL-021).</p></div>
+        <div class="card"><span class="c-icon">👁️</span><h3>show Product</h3><p>Displays the stored Products on this page — a live list from the API.</p></div>
+        <div class="card"><span class="c-icon">➕</span><h3>create Product</h3><p>Inside a <code>button</code> block: clicking the button creates a new record.</p></div>
+      </div>
+
+      <h3>What plainly build generates</h3>
+      <div class="table-wrap">
+        <table class="ref">
+          <tr><th>Command</th><th>Result</th></tr>
+          <tr><td><code>plainly build shop.pl -o my-shop</code></td><td>creates the <code>my-shop/</code> folder with everything below</td></tr>
+        </table>
+      </div>
+
+      <div class="diagram">
+        <div class="d-title">One source file → three working layers</div>
+        <div class="flow">
+          <div class="node">shop.pl</div><div class="arrow">→</div>
+          <div class="node">PIR</div><div class="arrow">→</div>
+          <div class="node">database/schema.sql<br><span class="muted">PostgreSQL tables</span></div>
+        </div>
+        <div class="flow" style="margin-top:10px;">
+          <div class="node">PIR</div><div class="arrow">→</div>
+          <div class="node">server/<br><span class="muted">Express API — CRUD + forms</span></div>
+          <div class="arrow">+</div>
+          <div class="node">client/<br><span class="muted">Vite + React + TS — pages &amp; forms</span></div>
+        </div>
+      </div>
+
+      <h3>Running your generated app</h3>
+      <div class="codeblock">
+        <div class="cb-head">
+          <span class="cb-title">Three commands to a running app (on your computer)</span>
+          <span class="cb-actions">
+            <button class="cb-btn copy">Copy</button>
+          </span>
+        </div>
+        <pre data-lang="bash"># 1. create the database tables
+createdb shop
+psql -d shop -f my-shop/database/schema.sql
+
+# 2. start the API (port 3001)
+cd my-shop/server && npm install && npm run dev
+
+# 3. start the UI (port 5173, proxies /api to the server)
+cd my-shop/client && npm install && npm run dev</pre>
+      </div>
+
+      <p>Open <code>http://localhost:5173</code>: your Products page, with a working
+      form that saves into PostgreSQL and a live list that updates. The generated
+      project has <strong>zero Plainly dependencies</strong> — it's plain code you can
+      read, extend and deploy.</p>
+
+      <div class="callout tip"><span class="co-icon">🚀</span><p><strong>Regenerate freely.</strong>
+      Change the .pl file, run <code>plainly build</code> again — the project is rewritten. Keep custom hand-written code
+      in separate files, and treat the generated code as yours to explore.</p></div>
+
+      <h3>Buttons, state and say in pages</h3>
+      <p>Pages can also have buttons with simple behavior, and remembered values:</p>
+
+      <div class="codeblock">
+        <div class="cb-head">
+          <span class="cb-title">Interactive bits inside a page</span>
+          <span class="cb-actions">
+            <button class="cb-btn copy">Copy</button>
+            <button class="cb-btn run">▶ Run</button>
+          </span>
+        </div>
+        <pre data-lang="plainly">app "Counter"
+
+page "Home":
+    title "My counter"
+    state count = 0
+    button "Count up":
+        set count = count + 1
+        say count</pre>
+        <div class="run-panel"><div class="rp-head">Output</div><pre></pre></div>
+      </div>
+
+      <p>In the console, clicking is simulated once so you can see the effect
+      (<code>1</code>). In a generated app, the button really clicks — state becomes
+      React state, the body becomes the click handler. Same PIR, same meaning,
+      different machine.</p>
+    </section>
+
+    <!-- ======================================================
+         CHAPTER 17 — PROJECTS
+    ======================================================= -->
+    <section class="chapter" id="ch-17">
+      <h2><span class="chnum">17</span> Mini projects</h2>
+      <p class="subtitle">Four complete programs using everything you know.</p>
+
+      <h3>Project 1 — A shopping cart</h3>
+      <p>Menu prices, a cart, a bill. Uses: lists, push, loops, the accumulator.</p>
+
+      <div class="codeblock">
+        <div class="cb-head">
+          <span class="cb-title">shopping cart</span>
+          <span class="cb-actions">
+            <button class="cb-btn copy">Copy</button>
+            <button class="cb-btn run">▶ Run</button>
+          </span>
+        </div>
+        <pre data-lang="plainly"># --- The menu (prices) ---
+set prices = [5, 3, 12]
+
+# --- The shopping cart ---
+set cart = []
+
+# A customer picks two things:
+push(cart, prices[0])
+push(cart, prices[2])
+
+# --- The bill ---
+set total = 0
+for each price in cart:
+  set total = total + price
+
+say "Items: " + text(length(cart))
+say "Total: $" + text(total)</pre>
+        <div class="run-panel"><div class="rp-head">Output</div><pre></pre></div>
+      </div>
+
+      <h3>Project 2 — Times tables</h3>
+      <p>One loop, formatted output. Uses: for each, text(), math.</p>
+
+      <div class="codeblock">
+        <div class="cb-head">
+          <span class="cb-title">times tables</span>
+          <span class="cb-actions">
+            <button class="cb-btn copy">Copy</button>
+            <button class="cb-btn run">▶ Run</button>
+          </span>
+        </div>
+        <pre data-lang="plainly">set sizes = [1, 2, 3, 4, 5]
+
+for each s in sizes:
+  say text(s) + " x 7 = " + text(s * 7)</pre>
+        <div class="run-panel"><div class="rp-head">Output</div><pre></pre></div>
+      </div>
+
+      <h3>Project 3 — Name badges</h3>
+      <p>A function that formats, reused for everyone. Uses: functions, uppercase, text.</p>
+
+      <div class="codeblock">
+        <div class="cb-head">
+          <span class="cb-title">name badges</span>
+          <span class="cb-actions">
+            <button class="cb-btn copy">Copy</button>
+            <button class="cb-btn run">▶ Run</button>
+          </span>
+        </div>
+        <pre data-lang="plainly">function badge(name, age):
+  set line = uppercase(name) + " (" + text(age) + ")"
+  return line
+
+say badge("plainly", 23)
+say badge("aisha", 31)</pre>
+        <div class="run-panel"><div class="rp-head">Output</div><pre></pre></div>
+      </div>
+
+      <h3>Project 4 — Password checker</h3>
+      <p>A function that answers a question. Uses: functions, if/otherwise, length.</p>
+
+      <div class="codeblock">
+        <div class="cb-head">
+          <span class="cb-title">password checker</span>
+          <span class="cb-actions">
+            <button class="cb-btn copy">Copy</button>
+            <button class="cb-btn run">▶ Run</button>
+          </span>
+        </div>
+        <pre data-lang="plainly">function checkPassword(password):
+  if length(password) >= 8:
+    return "strong enough"
+  otherwise:
+    return "too short"
+
+say checkPassword("hunter2")
+say checkPassword("a-very-long-password")</pre>
+        <div class="run-panel"><div class="rp-head">Output</div><pre></pre></div>
+      </div>
+
+      <div class="callout tip"><span class="co-icon">🚀</span><p><strong>Make them yours.</strong> Add a
+      discount to the cart. Extend the tables to 12. Let badge() add a title. Break each project, then fix it —
+      that's the whole craft.</p></div>
+    </section>
+
+    <!-- ======================================================
+         APPENDIX A — CHEATSHEET
+    ======================================================= -->
+    <section class="chapter" id="appendix-cheatsheet">
+      <h2><span class="chnum">A</span> Cheatsheet — the whole language on one page</h2>
+      <p class="subtitle">Everything, for quick reference.</p>
+
+      <div class="grid cols-2">
+        <div class="card">
+          <h3>Basics</h3>
+          <div class="table-wrap"><table class="ref">
+            <tr><td><code>say x</code></td><td>print a value</td></tr>
+            <tr><td><code>set name = x</code></td><td>store / update</td></tr>
+            <tr><td><code># comment</code></td><td>note for humans</td></tr>
+          </table></div>
+          <h3>Decisions</h3>
+          <div class="table-wrap"><table class="ref">
+            <tr><td><code>if c:</code> … <code>otherwise if c2:</code> … <code>otherwise:</code></td><td>choose a path</td></tr>
+            <tr><td><code>and</code> · <code>or</code> · <code>not</code></td><td>combine conditions</td></tr>
+          </table></div>
+          <h3>Loops</h3>
+          <div class="table-wrap"><table class="ref">
+            <tr><td><code>for each x in items:</code></td><td>once per item</td></tr>
+            <tr><td><code>repeat 10 times:</code></td><td>fixed count</td></tr>
+          </table></div>
+          <h3>Functions</h3>
+          <div class="table-wrap"><table class="ref">
+            <tr><td><code>function f(a, b): return …</code></td><td>define</td></tr>
+            <tr><td><code>f(1, 2)</code></td><td>call</td></tr>
+          </table></div>
+        </div>
+        <div class="card">
+          <h3>Operators (first wins)</h3>
+          <div class="table-wrap"><table class="ref">
+            <tr><td><code>( )</code></td><td>grouping</td></tr>
+            <tr><td><code>- not</code></td><td>unary</td></tr>
+            <tr><td><code>* / %</code></td><td>multiply</td></tr>
+            <tr><td><code>+ -</code></td><td>add / join</td></tr>
+            <tr><td><code>&gt; &lt; &gt;= &lt;= == !=</code></td><td>compare</td></tr>
+            <tr><td><code>and</code></td><td>logical</td></tr>
+            <tr><td><code>or</code></td><td>logical</td></tr>
+          </table></div>
+          <h3>Apps</h3>
+          <div class="table-wrap"><table class="ref">
+            <tr><td><code>app "Name"</code></td><td>declare the app</td></tr>
+            <tr><td><code>database X: field: type</code></td><td>data entity</td></tr>
+            <tr><td><code>page "P":</code></td><td>a screen</td></tr>
+            <tr><td><code>title "T"</code></td><td>page title</td></tr>
+            <tr><td><code>show X</code></td><td>list records</td></tr>
+            <tr><td><code>form "F" from X: field …</code></td><td>input form</td></tr>
+            <tr><td><code>button "B":</code> …</td><td>clickable action</td></tr>
+            <tr><td><code>state s = v</code></td><td>remember a value</td></tr>
+            <tr><td><code>create X</code></td><td>add a record</td></tr>
+          </table></div>
+        </div>
+      </div>
+
+      <h3>Field types: <code>text</code> · <code>number</code> · <code>boolean</code> · <code>money</code> · <code>email</code> · <code>date</code></h3>
+      <h3>CLI: <code>run</code> · <code>check</code> · <code>build -o DIR</code> · <code>compile --emit pir</code> · <code>serve DIR</code> · <code>explain</code> · <code>inspect</code> · <code>optimize</code></h3>
+    </section>
+
+    <!-- ======================================================
+         APPENDIX B — WHAT NEXT
+    ======================================================= -->
+    <section class="chapter" id="appendix-next">
+      <h2><span class="chnum">B</span> Where to go next</h2>
+      <p class="subtitle">You know the whole language. Here's the wider world.</p>
+
+      <div class="grid cols-3">
+        <div class="card"><span class="c-icon">📘</span><h3>Reference documentation</h3>
+          <p>Every rule, every operator, the formal grammar and the CLI — in the <a href="../docs/index.html">reference docs</a>.</p></div>
+        <div class="card"><span class="c-icon">🧠</span><h3>PIR internals</h3>
+          <p>The compiler's own documentation lives in <code>docs/compiler/pir/</code> — operations, passes, validation.</p></div>
+        <div class="card"><span class="c-icon">🛠️</span><h3>Build something real</h3>
+          <p>Pick something you personally want: a habit tracker, a recipe box, a club membership list. Describe it in .pl, run <code>plainly build</code>, ship it.</p></div>
+      </div>
+
+      <h3>Graduating to other languages</h3>
+      <p>Everything you learned here transfers directly:</p>
+      <div class="table-wrap">
+        <table class="ref">
+          <tr><th>Plainly</th><th>JavaScript</th><th>Python</th></tr>
+          <tr><td><code>set x = 1</code></td><td><code>let x = 1;</code></td><td><code>x = 1</code></td></tr>
+          <tr><td><code>say x</code></td><td><code>console.log(x)</code></td><td><code>print(x)</code></td></tr>
+          <tr><td><code>if c:</code></td><td><code>if (c) {}</code></td><td><code>if c:</code></td></tr>
+          <tr><td><code>for each x in xs:</code></td><td><code>for (const x of xs) {}</code></td><td><code>for x in xs:</code></td></tr>
+          <tr><td><code>function f(a): return a</code></td><td><code>function f(a) { return a }</code></td><td><code>def f(a): return a</code></td></tr>
+        </table>
+      </div>
+
+      <div class="callout info"><span class="co-icon">🎓</span><p>The syntax differs. The
+      <strong>thinking</strong> — variables, conditions, loops, lists, functions, reading errors carefully — is identical.
+      You already own it.</p></div>
+    </section>
+
+    <footer class="book-footer">
+      <p>The Plainly Book · v0.4 · every example on this page runs the real compiler in your browser.</p>
+    </footer>
+
+  </main>
+</div>
+
+<script src="assets/plainly.js"></script>
+<script src="assets/book.js"></script>
+</body>
+</html>

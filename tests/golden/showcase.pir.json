@@ -1,0 +1,670 @@
+{
+  "kind": "IRModule",
+  "version": "0.3",
+  "name": "main",
+  "entities": [],
+  "functions": [
+    {
+      "name": "main",
+      "parameters": [],
+      "blocks": [
+        {
+          "label": "entry",
+          "ops": [
+            {
+              "op": "const",
+              "operands": [
+                {
+                  "kind": "const",
+                  "value": "Plainly",
+                  "type": "string"
+                }
+              ],
+              "result": "%0"
+            },
+            {
+              "op": "store",
+              "operands": [
+                {
+                  "kind": "var",
+                  "name": "name",
+                  "type": "unknown"
+                },
+                {
+                  "kind": "temp",
+                  "name": "%0",
+                  "type": "string"
+                }
+              ]
+            },
+            {
+              "op": "const",
+              "operands": [
+                {
+                  "kind": "const",
+                  "value": 23,
+                  "type": "number"
+                }
+              ],
+              "result": "%1"
+            },
+            {
+              "op": "store",
+              "operands": [
+                {
+                  "kind": "var",
+                  "name": "age",
+                  "type": "unknown"
+                },
+                {
+                  "kind": "temp",
+                  "name": "%1",
+                  "type": "number"
+                }
+              ]
+            },
+            {
+              "op": "load",
+              "operands": [
+                {
+                  "kind": "var",
+                  "name": "age",
+                  "type": "unknown"
+                }
+              ],
+              "result": "%2"
+            },
+            {
+              "op": "const",
+              "operands": [
+                {
+                  "kind": "const",
+                  "value": 18,
+                  "type": "number"
+                }
+              ],
+              "result": "%3"
+            },
+            {
+              "op": "ge",
+              "operands": [
+                {
+                  "kind": "temp",
+                  "name": "%2",
+                  "type": "unknown"
+                },
+                {
+                  "kind": "temp",
+                  "name": "%3",
+                  "type": "number"
+                }
+              ],
+              "result": "%4"
+            },
+            {
+              "op": "jump_if_false",
+              "operands": [
+                {
+                  "kind": "temp",
+                  "name": "%4",
+                  "type": "boolean"
+                }
+              ],
+              "attrs": {
+                "__body": [
+                  {
+                    "op": "const",
+                    "operands": [
+                      {
+                        "kind": "const",
+                        "value": "Hello ",
+                        "type": "string"
+                      }
+                    ],
+                    "result": "%5",
+                    "pos": {
+                      "line": 6,
+                      "column": 9
+                    }
+                  },
+                  {
+                    "op": "load",
+                    "operands": [
+                      {
+                        "kind": "var",
+                        "name": "name",
+                        "type": "unknown"
+                      }
+                    ],
+                    "result": "%6",
+                    "pos": {
+                      "line": 6,
+                      "column": 20
+                    }
+                  },
+                  {
+                    "op": "add",
+                    "operands": [
+                      {
+                        "kind": "temp",
+                        "name": "%5",
+                        "type": "string"
+                      },
+                      {
+                        "kind": "temp",
+                        "name": "%6",
+                        "type": "unknown"
+                      }
+                    ],
+                    "result": "%7",
+                    "pos": {
+                      "line": 6,
+                      "column": 18
+                    }
+                  },
+                  {
+                    "op": "const",
+                    "operands": [
+                      {
+                        "kind": "const",
+                        "value": ", you are an adult.",
+                        "type": "string"
+                      }
+                    ],
+                    "result": "%8",
+                    "pos": {
+                      "line": 6,
+                      "column": 27
+                    }
+                  },
+                  {
+                    "op": "add",
+                    "operands": [
+                      {
+                        "kind": "temp",
+                        "name": "%7",
+                        "type": "number"
+                      },
+                      {
+                        "kind": "temp",
+                        "name": "%8",
+                        "type": "string"
+                      }
+                    ],
+                    "result": "%9",
+                    "pos": {
+                      "line": 6,
+                      "column": 25
+                    }
+                  },
+                  {
+                    "op": "print",
+                    "operands": [
+                      {
+                        "kind": "temp",
+                        "name": "%9",
+                        "type": "number"
+                      }
+                    ],
+                    "pos": {
+                      "line": 6,
+                      "column": 5
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "op": "not",
+              "operands": [
+                {
+                  "kind": "temp",
+                  "name": "%4",
+                  "type": "boolean"
+                }
+              ],
+              "result": "%15"
+            },
+            {
+              "op": "jump_if_false",
+              "operands": [
+                {
+                  "kind": "temp",
+                  "name": "%15",
+                  "type": "boolean"
+                }
+              ],
+              "attrs": {
+                "__body": [
+                  {
+                    "op": "const",
+                    "operands": [
+                      {
+                        "kind": "const",
+                        "value": "Hello ",
+                        "type": "string"
+                      }
+                    ],
+                    "result": "%10",
+                    "pos": {
+                      "line": 8,
+                      "column": 9
+                    }
+                  },
+                  {
+                    "op": "load",
+                    "operands": [
+                      {
+                        "kind": "var",
+                        "name": "name",
+                        "type": "unknown"
+                      }
+                    ],
+                    "result": "%11",
+                    "pos": {
+                      "line": 8,
+                      "column": 20
+                    }
+                  },
+                  {
+                    "op": "add",
+                    "operands": [
+                      {
+                        "kind": "temp",
+                        "name": "%10",
+                        "type": "string"
+                      },
+                      {
+                        "kind": "temp",
+                        "name": "%11",
+                        "type": "unknown"
+                      }
+                    ],
+                    "result": "%12",
+                    "pos": {
+                      "line": 8,
+                      "column": 18
+                    }
+                  },
+                  {
+                    "op": "const",
+                    "operands": [
+                      {
+                        "kind": "const",
+                        "value": ", you are a minor.",
+                        "type": "string"
+                      }
+                    ],
+                    "result": "%13",
+                    "pos": {
+                      "line": 8,
+                      "column": 27
+                    }
+                  },
+                  {
+                    "op": "add",
+                    "operands": [
+                      {
+                        "kind": "temp",
+                        "name": "%12",
+                        "type": "number"
+                      },
+                      {
+                        "kind": "temp",
+                        "name": "%13",
+                        "type": "string"
+                      }
+                    ],
+                    "result": "%14",
+                    "pos": {
+                      "line": 8,
+                      "column": 25
+                    }
+                  },
+                  {
+                    "op": "print",
+                    "operands": [
+                      {
+                        "kind": "temp",
+                        "name": "%14",
+                        "type": "number"
+                      }
+                    ],
+                    "pos": {
+                      "line": 8,
+                      "column": 5
+                    }
+                  }
+                ],
+                "else": true
+              }
+            },
+            {
+              "op": "const",
+              "operands": [
+                {
+                  "kind": "const",
+                  "value": 1,
+                  "type": "number"
+                }
+              ],
+              "result": "%16"
+            },
+            {
+              "op": "const",
+              "operands": [
+                {
+                  "kind": "const",
+                  "value": 2,
+                  "type": "number"
+                }
+              ],
+              "result": "%17"
+            },
+            {
+              "op": "const",
+              "operands": [
+                {
+                  "kind": "const",
+                  "value": 3,
+                  "type": "number"
+                }
+              ],
+              "result": "%18"
+            },
+            {
+              "op": "const",
+              "operands": [
+                {
+                  "kind": "const",
+                  "value": 4,
+                  "type": "number"
+                }
+              ],
+              "result": "%19"
+            },
+            {
+              "op": "make_list",
+              "operands": [
+                {
+                  "kind": "temp",
+                  "name": "%16",
+                  "type": "number"
+                },
+                {
+                  "kind": "temp",
+                  "name": "%17",
+                  "type": "number"
+                },
+                {
+                  "kind": "temp",
+                  "name": "%18",
+                  "type": "number"
+                },
+                {
+                  "kind": "temp",
+                  "name": "%19",
+                  "type": "number"
+                }
+              ],
+              "result": "%20"
+            },
+            {
+              "op": "store",
+              "operands": [
+                {
+                  "kind": "var",
+                  "name": "numbers",
+                  "type": "unknown"
+                },
+                {
+                  "kind": "temp",
+                  "name": "%20",
+                  "type": "list"
+                }
+              ]
+            },
+            {
+              "op": "make_list",
+              "operands": [],
+              "result": "%21"
+            },
+            {
+              "op": "store",
+              "operands": [
+                {
+                  "kind": "var",
+                  "name": "doubled",
+                  "type": "unknown"
+                },
+                {
+                  "kind": "temp",
+                  "name": "%21",
+                  "type": "list"
+                }
+              ]
+            },
+            {
+              "op": "load",
+              "operands": [
+                {
+                  "kind": "var",
+                  "name": "numbers",
+                  "type": "unknown"
+                }
+              ],
+              "result": "%22"
+            },
+            {
+              "op": "jump_if_true",
+              "operands": [
+                {
+                  "kind": "temp",
+                  "name": "%22",
+                  "type": "unknown"
+                }
+              ],
+              "attrs": {
+                "forEach": "n",
+                "__body": [
+                  {
+                    "op": "load",
+                    "operands": [
+                      {
+                        "kind": "var",
+                        "name": "doubled",
+                        "type": "unknown"
+                      }
+                    ],
+                    "result": "%23",
+                    "pos": {
+                      "line": 17,
+                      "column": 19
+                    }
+                  },
+                  {
+                    "op": "load",
+                    "operands": [
+                      {
+                        "kind": "var",
+                        "name": "n",
+                        "type": "unknown"
+                      }
+                    ],
+                    "result": "%24",
+                    "pos": {
+                      "line": 17,
+                      "column": 37
+                    }
+                  },
+                  {
+                    "op": "call_user",
+                    "operands": [
+                      {
+                        "kind": "temp",
+                        "name": "%24",
+                        "type": "unknown"
+                      }
+                    ],
+                    "result": "%25",
+                    "attrs": {
+                      "callee": "double"
+                    },
+                    "pos": {
+                      "line": 17,
+                      "column": 30
+                    }
+                  },
+                  {
+                    "op": "make_list",
+                    "operands": [
+                      {
+                        "kind": "temp",
+                        "name": "%25",
+                        "type": "unknown"
+                      }
+                    ],
+                    "result": "%26",
+                    "pos": {
+                      "line": 17,
+                      "column": 29
+                    }
+                  },
+                  {
+                    "op": "add",
+                    "operands": [
+                      {
+                        "kind": "temp",
+                        "name": "%23",
+                        "type": "unknown"
+                      },
+                      {
+                        "kind": "temp",
+                        "name": "%26",
+                        "type": "list"
+                      }
+                    ],
+                    "result": "%27",
+                    "pos": {
+                      "line": 17,
+                      "column": 27
+                    }
+                  },
+                  {
+                    "op": "store",
+                    "operands": [
+                      {
+                        "kind": "var",
+                        "name": "doubled",
+                        "type": "unknown"
+                      },
+                      {
+                        "kind": "temp",
+                        "name": "%27",
+                        "type": "number"
+                      }
+                    ],
+                    "pos": {
+                      "line": 17,
+                      "column": 5
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "op": "load",
+              "operands": [
+                {
+                  "kind": "var",
+                  "name": "doubled",
+                  "type": "unknown"
+                }
+              ],
+              "result": "%28"
+            },
+            {
+              "op": "print",
+              "operands": [
+                {
+                  "kind": "temp",
+                  "name": "%28",
+                  "type": "unknown"
+                }
+              ]
+            },
+            {
+              "op": "return",
+              "operands": []
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "double",
+      "parameters": [
+        "n"
+      ],
+      "blocks": [
+        {
+          "label": "entry",
+          "ops": [
+            {
+              "op": "load",
+              "operands": [
+                {
+                  "kind": "var",
+                  "name": "n",
+                  "type": "unknown"
+                }
+              ],
+              "result": "%0"
+            },
+            {
+              "op": "const",
+              "operands": [
+                {
+                  "kind": "const",
+                  "value": 2,
+                  "type": "number"
+                }
+              ],
+              "result": "%1"
+            },
+            {
+              "op": "mul",
+              "operands": [
+                {
+                  "kind": "temp",
+                  "name": "%0",
+                  "type": "unknown"
+                },
+                {
+                  "kind": "temp",
+                  "name": "%1",
+                  "type": "number"
+                }
+              ],
+              "result": "%2"
+            },
+            {
+              "op": "return",
+              "operands": [
+                {
+                  "kind": "temp",
+                  "name": "%2",
+                  "type": "number"
+                }
+              ]
+            },
+            {
+              "op": "return",
+              "operands": []
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

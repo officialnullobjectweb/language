@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Start here — write your first Plainly program in 5 minutes</title>
+<meta name="description" content="A dead-simple getting-started guide: try Plainly with zero install, run your first program, fix your first error, and build your first web app — no experience needed." />
+<link rel="stylesheet" href="assets/style.css" />
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%23e8590c'/><text x='50' y='68' font-size='52' text-anchor='middle' fill='white' font-family='sans-serif' font-weight='bold'>K</text></svg>" />
+<style>
+  .steps { counter-reset: step; margin: 20px 0; }
+  .step {
+    display: flex; gap: 14px; margin: 14px 0; align-items: flex-start;
+    background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 16px;
+  }
+  .step .num {
+    flex: 0 0 34px; height: 34px; border-radius: 50%; background: var(--accent); color: #fff;
+    display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 16px;
+  }
+  .step h3 { margin: 0 0 6px; font-size: 16px; }
+  .step p { margin: 0 0 8px; font-size: 15px; }
+  .stepcode {
+    background: var(--bg-soft); border-radius: 8px; padding: 10px 12px;
+    font-family: var(--font-code); font-size: 13.5px; overflow-x: auto; white-space: pre;
+  }
+  .simplewrap { max-width: 860px; margin: 0 auto; padding: 24px 20px 80px; }
+  .simplewrap h2 { margin-top: 2.4em; }
+  .pall { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; margin: 10px 0 4px; }
+  .pall .chip { font-size: 15px; }
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <a class="logo" href="../book/index.html#top"><span class="logo-mark">K</span> Plainly</a>
+    <span class="topbar-spacer"></span>
+    <a class="navlink" href="../book/index.html">The Book</a>
+    <a class="navlink" href="index.html">Documentation</a>
+  </div>
+</header>
+
+<div class="simplewrap">
+
+  <section class="hero" style="text-align:center;">
+    <span class="kicker">Start here · zero experience needed</span>
+    <h1>Write your first program in the next 5 minutes.</h1>
+    <p class="lead">Plainly is a programming language that reads like English.
+    This page takes you from "I've never coded" to "I built a website" — one small step at a time.</p>
+  </section>
+
+  <!-- ============ TRY RIGHT NOW ============ -->
+  <h2>Step 0 — Try it right now (nothing to install)</h2>
+
+  <p>Open <a href="../book/index.html"><strong>The Book</strong></a> in your browser.
+  Almost every example has a <span class="chip">▶ Run</span> button that runs the
+  <em>real</em> language right on the page. Try this one — change the name, press Run again:</p>
+
+  <div class="stepcode">say "Hello, world!"
+say "My name is Plainly"
+say 2 + 2</div>
+
+  <p>That's a real program. If you can type that, you can program.</p>
+
+  <!-- ============ INSTALL ============ -->
+  <h2>Step 1 — Put it on your computer</h2>
+
+  <div class="steps">
+    <div class="step"><div class="num">1</div><div>
+      <h3>Install Node.js</h3>
+      <p>Go to <strong>nodejs.org</strong>, download the "LTS" version, click next-next-next. You only do this once.</p>
+    </div></div>
+    <div class="step"><div class="num">2</div><div>
+      <h3>Get Plainly</h3>
+      <p>Download the project folder (or <code>git clone</code> it), open a terminal inside it, and run:</p>
+      <div class="stepcode">npm install
+npm run build</div>
+    </div></div>
+    <div class="step"><div class="num">3</div><div>
+      <h3>Say hello from your own machine</h3>
+      <p>Make a file called <code>hello.pl</code> with one line in it:</p>
+      <div class="stepcode">say "Hello, world!"</div>
+      <p>Then run it:</p>
+      <div class="stepcode">node dist/cli.js run hello.pl</div>
+      <p>You should see <code>Hello, world!</code>. That's it — the language lives on your computer now.</p>
+    </div></div>
+  </div>
+
+  <div class="callout tip"><span class="co-icon">💡</span><p><strong>What is a terminal?</strong> It's the
+  black window where you type commands. On Windows it's "PowerShell", on Mac "Terminal". To open one
+  inside a folder: right-click the folder → "Open in Terminal".</p></div>
+
+  <!-- ============ FIRST REAL STEPS ============ -->
+  <h2>Step 2 — Learn the 6 words that do 90% of everything</h2>
+
+  <p>Plainly has 16 keywords total. These six are the ones you'll use constantly:</p>
+
+  <div class="pall">
+    <span class="chip">say</span>
+    <span class="chip">set</span>
+    <span class="chip">if</span>
+    <span class="chip">for each</span>
+    <span class="chip">repeat</span>
+    <span class="chip">function</span>
+  </div>
+
+  <div class="stepcode"># say = show something
+say "I am learning to code"
+
+# set = remember something in a box
+set my_age = 25
+say my_age
+
+# if = choose
+if my_age >= 18:
+  say "I am an adult"
+
+# for each = do it for every item
+set snacks = ["chips", "cookies", "fruit"]
+for each snack in snacks:
+  say "I like " + snack</div>
+
+  <p>Type these into <code>hello.pl</code> and run it. Change things. Break things.
+  The <a href="../book/index.html">Book</a> explains every line with pictures.</p>
+
+  <!-- ============ FIRST ERROR ============ -->
+  <h2>Step 3 — Meet your first error (it's friendly)</h2>
+
+  <p>Sometimes the computer doesn't understand you. In most languages that looks scary.
+  In Plainly it looks like this:</p>
+
+  <div class="stepcode">PL-002 at line 2, column 5: You tried to use 'naem', but it doesn't exist yet.
+
+    say naem
+        ^^^^
+Hint: Did you mean 'name'?</div>
+
+  <p>Read it slowly: <strong>what</strong> (name doesn't exist), <strong>where</strong> (line 2,
+  with the little arrow), and <strong>how to fix it</strong> (the hint). Every error has a code
+  like <code>PL-002</code> — the <a href="../book/index.html#ch-14">Book's chapter 14</a> lists them all in plain words.</p>
+
+  <div class="callout info"><span class="co-icon">🎓</span><p>Errors are not failure. They are the
+  computer asking a question. Answer it, run again, move on. Every programmer reads errors all day.</p></div>
+
+  <!-- ============ FIRST APP ============ -->
+  <h2>Step 4 — Build a real website</h2>
+
+  <p>Now the fun part. Describe a website in one file:</p>
+
+  <div class="stepcode">app "My Bakery"
+
+database Cake:
+    name: text
+    price: money
+
+page "Menu":
+    title "Our cakes"
+    show Cake
+    form "Add a cake" from Cake:
+        field name: text
+        field price: number
+
+page "About":
+    title "We love cake"</div>
+
+  <p>Then run one command:</p>
+
+  <div class="stepcode">node dist/cli.js build bakery.pl -o my-bakery</div>
+
+  <p>You now have a folder with:</p>
+  <ul>
+    <li>a <strong>database</strong> (schema.sql — the tables for your cakes)</li>
+    <li>an <strong>API server</strong> (server/ — saves and serves your data)</li>
+    <li>a <strong>website</strong> (client/ — real pages with a working form)</li>
+  </ul>
+
+  <p>Run it (you'll need the free PostgreSQL database — the generated README walks you
+  through it step by step):</p>
+
+  <div class="stepcode"># 1. create the database tables
+createdb my_bakery
+psql -d my_bakery -f my-bakery/database/schema.sql
+
+# 2. start the server
+cd my-bakery/server && npm install && npm run dev
+
+# 3. in a second terminal, start the website
+cd my-bakery/client && npm install && npm run dev</div>
+
+  <p>Open <strong>http://localhost:5173</strong> — your bakery website, with a working
+  form that saves cakes. You described it in 14 lines. The generated code is ordinary
+  code you can open, read and change.</p>
+
+  <!-- ============ DAILY COMMANDS ============ -->
+  <h2>Cheat card — keep this</h2>
+
+  <div class="table-wrap"><table class="ref">
+    <tr><th>You want to…</th><th>Type this</th></tr>
+    <tr><td>run a program</td><td><code>node dist/cli.js run file.pl</code></td></tr>
+    <tr><td>check for mistakes (without running)</td><td><code>node dist/cli.js check file.pl</code></td></tr>
+    <tr><td>ask "what does my program mean?"</td><td><code>node dist/cli.js explain file.pl</code></td></tr>
+    <tr><td>build a website from a file</td><td><code>node dist/cli.js build file.pl -o my-site</code></td></tr>
+    <tr><td>read the error guide</td><td><code>node dist/cli.js explain PL-002</code></td></tr>
+    <tr><td>look up a tool like split</td><td><code>node dist/cli.js explain split</code></td></tr>
+  </table></div>
+
+  <!-- ============ WHERE NEXT ============ -->
+  <h2>Where to go next</h2>
+
+  <div class="grid cols-3">
+    <div class="card"><span class="c-icon">📖</span><h3>Read the Book</h3>
+      <p><a href="../book/index.html">17 short chapters</a> take you from zero to
+      building apps. Every example runs in the page.</p></div>
+    <div class="card"><span class="c-icon">📚</span><h3>Keep the docs open</h3>
+      <p>The <a href="index.html">reference</a> has every rule, operator, tool and error code.</p></div>
+    <div class="card"><span class="c-icon">🍰</span><h3>Copy the bakery</h3>
+      <p>Change <code>examples/bakery.pl</code> into YOUR thing: a gym, a club, a shop.
+      Same 16 lines, your content.</p></div>
+  </div>
+
+  <div class="callout tip"><span class="co-icon">🚀</span><p><strong>The honest truth:</strong> the only
+  difference between "someone who can't code" and "someone who can" is a few hundred small
+  experiments. You just did the first four. Keep going.</p></div>
+
+</div>
+</body>
+</html>
